@@ -14,11 +14,11 @@
   <ion-card>
     <ion-card-content>
       <ion-item>
-        <ion-input clearInput placeholder="Nomor Whatsapp" type="number"></ion-input>
+        <ion-input clearInput placeholder="Masukkan Nomor HP atau Email" type="text" [(ngModel)]="username"></ion-input>
       </ion-item>
       <ion-item>
-        <ion-input clearInput placeholder="Password" type="password"></ion-input>
-        <ion-button fill="outline" slot="end"><ion-icon name="log-in" slot="end"></ion-icon>LOGIN</ion-button>
+        <ion-input clearInput placeholder="Masukkan Password" type="password" [(ngModel)]="password"></ion-input>
+        <ion-button fill="outline" slot="end" (click)="login()"><ion-icon name="log-in" slot="end"></ion-icon>LOGIN</ion-button>
       </ion-item>
     </ion-card-content>
   </ion-card>

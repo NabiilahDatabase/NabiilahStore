@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { AngularFireAuth } from '@angular/fire/auth';
+import { auth } from 'firebase/app';
 
 @Component({
   selector: 'app-login',
@@ -6,10 +8,24 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./login.page.scss'],
 })
 export class LoginPage implements OnInit {
-
-  constructor() { }
+  username = '';
+  password = '';
+  constructor(public afAuth: AngularFireAuth) { }
 
   ngOnInit() {
   }
 
+  async login() {
+    const { username, password } = this;
+    console.dir(username + ' ' + password);
+    try {
+      const res = await this.afAuth.auth.signInWithEmailAndPassword(username + '@gmail.com', password);
+    } catch (err) {
+      console.dir(err);
+    }
+  }
+
+  logout() {
+    this.afAuth.auth.signOut();
+  }
 }
