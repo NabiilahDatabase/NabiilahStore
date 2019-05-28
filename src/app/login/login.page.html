@@ -1,9 +1,25 @@
 <ion-header>
-  <ion-toolbar>
+  <ion-toolbar color="tertiary">
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
     <ion-title>login</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-
+  <br>
+  <br>
+  <br>
+  <ion-card>
+    <ion-card-content>
+      <ion-item>
+        <ion-input clearInput placeholder="Nomor Whatsapp" type="number"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-input clearInput placeholder="Password" type="password"></ion-input>
+        <ion-button fill="outline" slot="end"><ion-icon name="log-in" slot="end"></ion-icon>LOGIN</ion-button>
+      </ion-item>
+    </ion-card-content>
+  </ion-card>
 </ion-content>
