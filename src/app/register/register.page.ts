@@ -21,7 +21,7 @@ export class RegisterPage implements OnInit {
     const { hp, email, password, upassword } = this;
 
     if (password !== upassword) {
-      return console.error('Password tidak sama!')
+      return console.error('Password tidak sama!');
     }
 
     try {
