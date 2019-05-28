@@ -3,7 +3,7 @@
     <ion-buttons slot="start">
       <ion-back-button></ion-back-button>
     </ion-buttons>
-    <ion-title>login</ion-title>
+    <ion-title>Login</ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -14,12 +14,15 @@
   <ion-card>
     <ion-card-content>
       <ion-item>
-        <ion-input clearInput placeholder="Masukkan Nomor HP atau Email" type="text" [(ngModel)]="username"></ion-input>
+        <ion-input clearInput placeholder="Masukkan Email" type="text" [(ngModel)]="username"></ion-input>
       </ion-item>
       <ion-item>
         <ion-input clearInput placeholder="Masukkan Password" type="password" [(ngModel)]="password"></ion-input>
         <ion-button fill="outline" slot="end" (click)="login()"><ion-icon name="log-in" slot="end"></ion-icon>LOGIN</ion-button>
       </ion-item>
+      <div text-center>
+        <ion-label>Belum memiliki akun? </ion-label><ion-label routerLink="/register" color="primary">Daftar</ion-label>
+      </div>
     </ion-card-content>
   </ion-card>
 </ion-content>

@@ -17,11 +17,13 @@ export class LoginPage implements OnInit {
 
   async login() {
     const { username, password } = this;
-    console.dir(username + ' ' + password);
     try {
-      const res = await this.afAuth.auth.signInWithEmailAndPassword(username + '@gmail.com', password);
+      const res = await this.afAuth.auth.signInWithEmailAndPassword(username, password);
     } catch (err) {
       console.dir(err);
+      if (err.code === 'auth/user-not-found') {
+        console.log('User tidak ditemukan');
+      }
     }
   }
 

@@ -1,0 +1,32 @@
+<ion-header>
+    <ion-toolbar color="tertiary">
+      <ion-buttons slot="start">
+        <ion-back-button></ion-back-button>
+      </ion-buttons>
+      <ion-title>Register</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+<ion-content>
+  <br>
+  <br>
+  <br>
+  <ion-card>
+    <ion-card-content>
+      <ion-item>
+        <ion-input clearInput placeholder="Nomor HP" type="number" [(ngModel)]="hp"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-input clearInput placeholder="Email" type="text" [(ngModel)]="email"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-input clearInput placeholder="Password" type="password" [(ngModel)]="password"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-input clearInput placeholder="Ulangi Password" type="password" [(ngModel)]="upassword"></ion-input>
+        <ion-button fill="outline" slot="end" (click)="register()"><ion-icon name="log-in" slot="end"></ion-icon>DAFTAR</ion-button>
+      </ion-item>
+    </ion-card-content>
+  </ion-card>
+</ion-content>
+
