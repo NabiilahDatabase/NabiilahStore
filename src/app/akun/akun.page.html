@@ -1,9 +1,12 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>akun</ion-title>
+    <ion-title>Akun</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-
+  <div class="camera">
+    <img *ngIf="imageURL" src="https://ucarecdn.com/{{imageURL}}/"/>
+  </div>
+  <input type="file" (change)="fileChanged($event)" #file/>
 </ion-content>
