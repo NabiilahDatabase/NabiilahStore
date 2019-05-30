@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { AngularFirestore } from '@angular/fire/firestore';
+import { UserService } from '../user.service';
+import { firestore } from 'firebase';
 
 @Component({
   selector: 'app-akun',
@@ -8,9 +11,13 @@ import { HttpClient } from '@angular/common/http';
 })
 
 export class AkunPage implements OnInit {
-
-  public imageURL: string;
-  constructor(public http: HttpClient) { }
+  imageURL: string;
+  diskripsi: string;
+  constructor(
+    public http: HttpClient,
+    public afstore: AngularFirestore,
+    public user: UserService
+    ) { }
 
   ngOnInit() {
   }
@@ -26,7 +33,17 @@ export class AkunPage implements OnInit {
     this.http.post('https://upload.uploadcare.com/base/', data)
     .subscribe( events => {
       console.log(events),
+// tslint:disable-next-line: no-string-literal
       this.imageURL = events['file'];
+    });
+  }
+
+  createPost() {
+    const image = this.imageURL;
+    const disk = this.diskripsi;
+
+    this.afstore.doc(`users/${this.user.getUID()}`).update({
+      post: firestore
     });
   }
 }

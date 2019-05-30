@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
+import { AngularFirestore } from '@angular/fire/firestore';
 import { auth } from 'firebase/app';
 import { AlertController } from '@ionic/angular';
 import { Router } from '@angular/router';
+import { UserService } from '../user.service';
 
 @Component({
   selector: 'app-register',
@@ -12,20 +14,22 @@ import { Router } from '@angular/router';
 
 export class RegisterPage implements OnInit {
   hp = '';
-  email = '';
+  username = '';
   password = '';
   upassword = '';
   constructor(
     public afAuth: AngularFireAuth,
+    public afstore: AngularFirestore,
     public alert: AlertController,
-    public router: Router
+    public router: Router,
+    public user: UserService
     ) { }
 
   ngOnInit() {
   }
 
   async register() {
-    const { hp, email, password, upassword } = this;
+    const { hp, username, password, upassword } = this;
 
     if (password !== upassword) {
       this.showAlert('Error', 'Password yg anda masukkan salah!');
@@ -33,10 +37,14 @@ export class RegisterPage implements OnInit {
     }
 
     try {
-      const res = await this.afAuth.auth.createUserWithEmailAndPassword(email, password);
-      console.log(res);
-      this.showAlert('Sukses!', 'Akun ' + email + ' berhasil dibuat');
-      this.router.navigate(['/login']);
+      const res = await this.afAuth.auth.createUserWithEmailAndPassword(username, password);
+      this.afstore.doc(`users/${res.user.uid}`).set({username});
+      this.user.setUser({
+        username,
+        uid: res.user.uid
+      });
+      this.showAlert('Sukses!', 'Akun ' + username + ' berhasil dibuat');
+      this.router.navigate(['/main']);
     } catch (err) {
       console.dir(err);
       this.showAlert('Error!', err.message);

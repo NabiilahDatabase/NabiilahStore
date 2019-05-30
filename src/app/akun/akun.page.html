@@ -5,8 +5,14 @@
 </ion-header>
 
 <ion-content>
-  <div class="camera">
-    <img *ngIf="imageURL" src="https://ucarecdn.com/{{imageURL}}/"/>
-  </div>
-  <input type="file" (change)="fileChanged($event)" #file/>
+  <ion-card>
+    <div class="camera">
+      <img *ngIf="imageURL" src="https://ucarecdn.com/{{imageURL}}/"/>
+    </div>
+    <ion-card-content>
+      <input *ngIf="!imageURL" type="file" (change)="fileChanged($event)" #file/>
+      <ion-textarea placeholder="Masukkan rincian gambar disini" [(ngModel)]="diskripsi"></ion-textarea>
+      <ion-button shape="round" color="tertiary" (click)="createPost()">POSTING</ion-button>
+    </ion-card-content>
+  </ion-card>
 </ion-content>
