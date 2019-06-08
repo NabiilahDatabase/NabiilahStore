@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { UserService } from '../user.service';
-import { firestore } from 'firebase';
+import { firestore } from 'firebase/app';
 
 @Component({
   selector: 'app-akun',
@@ -43,7 +43,10 @@ export class AkunPage implements OnInit {
     const disk = this.diskripsi;
 
     this.afstore.doc(`users/${this.user.getUID()}`).update({
-      post: firestore
+      post: firestore.FieldValue.arrayUnion({
+        image,
+        disk
+      })
     });
   }
 }
