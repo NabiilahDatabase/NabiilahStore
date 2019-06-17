@@ -9,9 +9,25 @@ ion-slide {
 
 h1 {
     font-size: 30px;
-    margin-bottom: 20px;
+    font-weight: lighter;
+}
+
+img {
+    max-height: 400px;
 }
 
 p {
     font-weight: lighter;
+    margin-left: 20px;
+    margin-right: 20px;
+}
+
+.btn-primary {
+    height: 40px;
+}
+
+@media screen and (max-height: 775px) {
+    img {
+        width: 70%;
+    }
 }

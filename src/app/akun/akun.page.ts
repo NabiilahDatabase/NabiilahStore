@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { UserService } from '../user.service';
@@ -13,6 +13,9 @@ import { firestore } from 'firebase/app';
 export class AkunPage implements OnInit {
   imageURL: string;
   diskripsi: string;
+
+  @ViewChild('fileButton') fileButton;
+
   constructor(
     public http: HttpClient,
     public afstore: AngularFirestore,
@@ -38,12 +41,16 @@ export class AkunPage implements OnInit {
     });
   }
 
+  uploadFile() {
+    this.fileButton.nativeElement.click();
+  }
+
   createPost() {
     const image = this.imageURL;
     const disk = this.diskripsi;
 
     this.afstore.doc(`users/${this.user.getUID()}`).update({
-      post: firestore.FieldValue.arrayUnion({
+      posts: firestore.FieldValue.arrayUnion({
         image,
         disk
       })
