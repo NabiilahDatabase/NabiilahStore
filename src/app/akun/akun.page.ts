@@ -3,6 +3,8 @@ import { HttpClient } from '@angular/common/http';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { UserService } from '../user.service';
 import { firestore } from 'firebase/app';
+import { AlertController } from '@ionic/angular';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-akun',
@@ -13,21 +15,33 @@ import { firestore } from 'firebase/app';
 export class AkunPage implements OnInit {
   imageURL: string;
   diskripsi: string;
+  busy = false;
 
   @ViewChild('fileButton') fileButton;
 
   constructor(
     public http: HttpClient,
     public afstore: AngularFirestore,
-    public user: UserService
+    public user: UserService,
+    private alert: AlertController,
+    private router: Router
     ) { }
 
   ngOnInit() {
   }
 
-  fileChanged(event) {
-    const files = event.target.files;
+  async showAlert(header: string, message: string) {
+    const alert = await this.alert.create({
+      header,
+      message,
+      buttons: ['OK']
+    });
+    await alert.present();
+  }
 
+  fileChanged(event) {
+    this.busy = true;
+    const files = event.target.files;
     const data = new FormData();
     data.append('file', files[0]);
     data.append('UPLOADCARE_STORE', '1');
@@ -38,6 +52,7 @@ export class AkunPage implements OnInit {
       console.log(events),
 // tslint:disable-next-line: no-string-literal
       this.imageURL = events['file'];
+      this.busy = false;
     });
   }
 
@@ -45,7 +60,8 @@ export class AkunPage implements OnInit {
     this.fileButton.nativeElement.click();
   }
 
-  createPost() {
+  async createPost() {
+    this.busy = true;
     const image = this.imageURL;
     const disk = this.diskripsi;
 
@@ -58,5 +74,10 @@ export class AkunPage implements OnInit {
         author: this.user.getUsername(),
         likes: []
       });
+    this.busy = false;
+    this.imageURL = '';
+    this.diskripsi = '';
+    this.showAlert('Selesai', 'Gambar sukses di Upload!');
+    this.router.navigate(['/main/store']);
   }
 }

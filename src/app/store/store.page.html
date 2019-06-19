@@ -5,8 +5,11 @@
 </ion-header>
 
 <ion-content>
-  <div id="images">
-    <div class="images" *ngFor="let post of (userPost | async)?.posts">
+
+    <!--<app-loading *ngIf="!userPost"></app-loading>-->
+
+  <div id="images" *ngIf="(userPost | async)?.posts as posts">
+    <div class="images" *ngFor="let post of posts">
       <ion-card (click)="goTo(post)">
         <ion-img src="https://ucarecdn.com/{{ post }}/-/scale_crop/200x200/"></ion-img>
         <p>{{ userPost.posts }}</p>

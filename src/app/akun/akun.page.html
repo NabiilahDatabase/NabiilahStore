@@ -5,8 +5,9 @@
 </ion-header>
 
 <ion-content>
-  <div class="center">
+    <app-loading *ngIf="busy"></app-loading>
 
+  <div class="center" *ngIf="!busy">
     <ion-button shape="round" color="tertiary" (click)="uploadFile()" *ngIf="!imageURL" fill="outline">UPLOAD</ion-button>
     <input class="filebtn" *ngIf="!imageURL" type="file" (change)="fileChanged($event)" #fileButton/>
 

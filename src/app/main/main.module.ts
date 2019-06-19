@@ -6,13 +6,15 @@ import { IonicModule } from '@ionic/angular';
 
 import { MainPage } from './main.page';
 import { MainRoutingModule } from './main.router.module';
+import { ShareModule } from '../share.module';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    MainRoutingModule
+    MainRoutingModule,
+    ShareModule
   ],
   declarations: [MainPage]
 })

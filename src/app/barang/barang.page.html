@@ -1,10 +1,13 @@
-<ion-header *ngIf="post | async as postData">
+<ion-header>
   <ion-toolbar>
-    <ion-title>{{ postData.disk }}</ion-title>
+    <ion-title>Barang</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
+
+    <app-loading *ngIf="!post"></app-loading>
+
   <ion-card *ngIf="post | async as postData">
     <ion-img src="https://ucarecdn.com/{{ postID }}/"></ion-img>
     <ion-card-content>
