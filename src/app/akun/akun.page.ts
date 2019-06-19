@@ -50,10 +50,13 @@ export class AkunPage implements OnInit {
     const disk = this.diskripsi;
 
     this.afstore.doc(`users/${this.user.getUID()}`).update({
-      posts: firestore.FieldValue.arrayUnion({
-        image,
-        disk
-      })
+      posts: firestore.FieldValue.arrayUnion(image)
     });
+
+    this.afstore.doc(`posts/${image}`).set({
+        disk,
+        author: this.user.getUsername(),
+        likes: []
+      });
   }
 }

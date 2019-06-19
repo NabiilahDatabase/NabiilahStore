@@ -10,7 +10,8 @@ const routes: Routes = [
         children: [
             { path: 'order', loadChildren: '../order/order.module#OrderPageModule' },
             { path: 'store', loadChildren: '../store/store.module#StorePageModule' },
-            { path: 'akun', loadChildren: '../akun/akun.module#AkunPageModule' }
+            { path: 'akun', loadChildren: '../akun/akun.module#AkunPageModule' },
+            { path: 'barang/:id', loadChildren: '../barang/barang.module#BarangPageModule' }
         ]
     }
 ];
