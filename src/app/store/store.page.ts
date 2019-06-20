@@ -21,7 +21,7 @@ export class StorePage implements OnInit {
   }
 
   goTo(postID: string) {
-    this.router.navigate(['/main/barang/' + postID]);
+    this.router.navigate(['/main/barang/' + postID.split('/')[0]]);
   }
 
   ngOnInit() {

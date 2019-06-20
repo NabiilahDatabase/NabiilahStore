@@ -16,6 +16,7 @@ export class BarangPage implements OnInit {
   postRef: AngularFirestoreDocument;
   sub;
   heartType = 'heart-empty';
+  effect = '';
 
   constructor(
     private route: ActivatedRoute,
@@ -27,6 +28,7 @@ export class BarangPage implements OnInit {
     this.postRef = this.afs.doc(`posts/${this.postID}`);
     this.sub = this.postRef.valueChanges().subscribe(val => {
       this.post = val;
+      this.effect = val.effect;
       this.heartType = val.likes.includes(this.user.getUID()) ? 'heart' : 'heart-empty';
     });
   }

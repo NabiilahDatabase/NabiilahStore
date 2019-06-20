@@ -17,6 +17,16 @@ export class AkunPage implements OnInit {
   diskripsi: string;
   busy = false;
 
+  scaleCrop = '-/scale_crop/200x200';
+  effects = {
+    effect1: '',
+    effect2: '-/filter/fenralan/150/',
+    effect3: '-/filter/vevera/150/',
+    effect4: '-/filter/carris/150/',
+    effect5: '-/filter/misiara/150/'
+  };
+  activeEffect = this.effects.effect1;
+
   @ViewChild('fileButton') fileButton;
 
   constructor(
@@ -56,6 +66,10 @@ export class AkunPage implements OnInit {
     });
   }
 
+  setSelected(effect: string) {
+    this.activeEffect = this.effects[effect];
+  }
+
   uploadFile() {
     this.fileButton.nativeElement.click();
   }
@@ -64,16 +78,19 @@ export class AkunPage implements OnInit {
     this.busy = true;
     const image = this.imageURL;
     const disk = this.diskripsi;
+    const activeEffect = this.activeEffect;
 
     this.afstore.doc(`users/${this.user.getUID()}`).set({
-      posts: firestore.FieldValue.arrayUnion(image)
+      posts: firestore.FieldValue.arrayUnion(`${image}/${activeEffect}`)
     }, { merge : true });
 
     this.afstore.doc(`posts/${image}`).set({
         disk,
         author: this.user.getUsername(),
-        likes: []
+        likes: [],
+        effect: activeEffect
     }, { merge : true });
+
     this.busy = false;
     this.imageURL = '';
     this.diskripsi = '';
