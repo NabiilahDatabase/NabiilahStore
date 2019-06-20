@@ -1,21 +1,16 @@
 <ion-header>
-  <ion-toolbar>
+  <ion-toolbar color="tertiary">
     <ion-title>store</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
 
-    <!--<app-loading *ngIf="!userPost"></app-loading>-->
+    <app-loading *ngIf="!userPost"></app-loading>
 
   <div id="images" *ngIf="(userPost | async)?.posts as posts">
     <div class="images" *ngFor="let post of posts">
-      <ion-card (click)="goTo(post)">
-        <ion-img src="https://ucarecdn.com/{{ post }}/-/scale_crop/200x200/"></ion-img>
-        <p>{{ userPost.posts }}</p>
-      </ion-card>
-      <ion-content>
-      </ion-content>
+          <img (click)="goTo(post)" class="main-image" src="https://ucarecdn.com/{{ post }}/-/scale_crop/200x200/" />
     </div>
   </div>
 </ion-content>
