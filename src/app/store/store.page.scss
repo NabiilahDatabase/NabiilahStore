@@ -1,14 +1,13 @@
 #images {
-    display: flex;
-    flex-wrap: wrap;
+    display: block;
     margin: 0 auto;
     max-width: 100%;
     width: 606px;
 }
 
 .images {
-    margin-left: 1px;
-    margin-right: 1px;
+    float: right;
+    position: relative;
 }
 
 .main-image {

@@ -16,6 +16,10 @@ img {
     max-height: 400px;
 }
 
+.bawah {
+    margin-top: -10px;
+}
+
 p {
     font-weight: lighter;
     margin-left: 20px;
@@ -28,6 +32,10 @@ p {
 
 .btn-tertiary {
     height: 40px;
+    border-radius: 5em;
+    color: #fff;
+    box-shadow: 0 0 20px 1px rgba(0, 0, 0, 0.04);
+    background: linear-gradient(to right, #54388E, #9C27B0);
 }
 
 @media screen and (max-height: 775px) {

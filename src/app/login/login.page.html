@@ -1,5 +1,5 @@
-<ion-header>
-  <ion-toolbar color="tertiary">
+<ion-header no-border>
+  <ion-toolbar>
     <ion-buttons slot="start">
       <ion-back-button></ion-back-button>
     </ion-buttons>
@@ -8,20 +8,14 @@
 </ion-header>
 
 <ion-content>
-  <br>
-  <br>
-  <br>
-  <ion-card>
+  <ion-card class="main">
     <ion-card-content>
-      <ion-item>
-        <ion-input clearInput placeholder="Masukkan Email" type="text" [(ngModel)]="username"></ion-input>
-      </ion-item>
-      <ion-item>
-        <ion-input clearInput placeholder="Masukkan Password" type="password" [(ngModel)]="password"></ion-input>
-        <ion-button fill="outline" slot="end" (click)="login()"><ion-icon name="log-in" slot="end"></ion-icon>LOGIN</ion-button>
-      </ion-item>
+      <ion-card-title class="judul">NABIILAH STORE</ion-card-title>
+        <ion-input class="input" clearInput placeholder="Nomor HP" type="text" [(ngModel)]="username"></ion-input>
+        <ion-input class="input" clearInput placeholder="Masukkan Password" type="password" [(ngModel)]="password"></ion-input>
+        <ion-button class="submit" fill="clear" (click)="login()"><ion-icon name="log-in" slot="end"></ion-icon>LOGIN</ion-button>
       <div text-center>
-        <ion-label>Belum memiliki akun? </ion-label><ion-label routerLink="/register" color="primary">Daftar</ion-label>
+        <ion-label>Belum memiliki akun? </ion-label><ion-label routerLink="/register" color="tertiary">Daftar</ion-label>
       </div>
     </ion-card-content>
   </ion-card>

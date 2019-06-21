@@ -4,13 +4,23 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
+<ion-content fullscreen="true">
 
     <app-loading *ngIf="!userPost"></app-loading>
-
+    <ion-grid>
+        <ion-row responsive-sm wrap id="images" *ngIf="(userPost | async)?.posts as posts">
+          <ion-col size="4" class="images" *ngFor="let post of posts">
+            <div>
+              <img (click)="goTo(post)" class="main-image" src="https://ucarecdn.com/{{ post }}/-/scale_crop/200x200/" />
+            </div>
+          </ion-col>
+        </ion-row>
+    </ion-grid>
+    <!--
   <div id="images" *ngIf="(userPost | async)?.posts as posts">
     <div class="images" *ngFor="let post of posts">
           <img (click)="goTo(post)" class="main-image" src="https://ucarecdn.com/{{ post }}/-/scale_crop/200x200/" />
     </div>
   </div>
+-->
 </ion-content>
