@@ -3,6 +3,7 @@ import { AngularFirestore, AngularFirestoreDocument } from '@angular/fire/firest
 import { UserService } from '../user.service';
 import { Router } from '@angular/router';
 import { AngularFireFunctions } from '@angular/fire/functions';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-store',
@@ -28,6 +29,12 @@ export class StorePage implements OnInit {
     this.mainuser = this.afs.doc(`users/${this.user.getUID()}`);
     this.sub = this.mainuser.valueChanges().subscribe(event => {
       this.posts = event.posts;
+      console.log('posting reg');
+    });
+    const getPost = this.aff.httpsCallable('getPost');
+    this.task = getPost({}).subscribe(data => {
+      this.coba = data;
+      console.log('posting firebase');
     });
   }
 
@@ -36,17 +43,6 @@ export class StorePage implements OnInit {
   }
 
   ngOnInit() {
-    const getPost = this.aff.httpsCallable('getPost');
-    this.task = getPost({}).subscribe(data => {
-      this.coba = data;
-    });
-    console.log(this.coba);
-  }
-
-  // tslint:disable-next-line: use-life-cycle-interface
-  ngOnDestroy() {
-    this.sub.unsubscribe();
-    this.task.unsubscribe();
   }
 
 }

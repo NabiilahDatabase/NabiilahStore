@@ -17,6 +17,7 @@ import { Observable } from 'rxjs';
 export class UploaderPage implements OnInit {
 
   imageURL: Observable<string>;
+  imageCdn;
   url: string;
   imageName: string;
   namaBarang: string;
@@ -36,6 +37,7 @@ export class UploaderPage implements OnInit {
   activeEffect = this.effects.effect1;
 
   @ViewChild('fileButton') fileButton;
+  @ViewChild('cdnButton') cdnButton;
 
   constructor(
     private alert: AlertController,
@@ -73,10 +75,14 @@ export class UploaderPage implements OnInit {
         this.busy = false;
        } )
     ).subscribe();
+  }
 
-    /*
+  fileCdn(event) {
+    this.busy = true;
+    const files = event.target.files[0];
+
     const data = new FormData();
-    data.append('file', files[0]);
+    data.append('file', files);
     data.append('UPLOADCARE_STORE', '1');
     data.append('UPLOADCARE_PUB_KEY', '8f7cf0c54abcd5149cf5');
 
@@ -84,10 +90,10 @@ export class UploaderPage implements OnInit {
     .subscribe( events => {
       console.log(events),
 // tslint:disable-next-line: no-string-literal
-      this.imageURL = events['file'];
+      this.imageCdn = events['file'];
       this.busy = false;
     });
-    */
+
   }
 
   setSelected(effect: string) {
@@ -98,6 +104,10 @@ export class UploaderPage implements OnInit {
     this.fileButton.nativeElement.click();
   }
 
+  uploadCdn() {
+    this.cdnButton.nativeElement.click();
+  }
+
   async createPost() {
     this.busy = true;
     const image = this.imageName;
@@ -106,7 +116,7 @@ export class UploaderPage implements OnInit {
     const stock = this.stockBarang;
     const disk = this.diskripsi;
     const url = this.url;
-    // const activeEffect = this.activeEffect;
+    const activeEffect = this.activeEffect;
 
     this.afstore.doc(`produk/${image}`).set({
         nama,
@@ -118,7 +128,18 @@ export class UploaderPage implements OnInit {
         // effect: activeEffect
     }, { merge : true });
 
-/*
+    this.busy = false;
+    this.imageURL = null;
+    this.showAlert('Selesai', 'Gambar sukses di Upload!');
+    this.router.navigate(['/main/store']);
+  }
+
+  createCdn() {
+    this.busy = true;
+
+    const image = this.imageCdn;
+    const disk = this.diskripsi;
+    const activeEffect = this.activeEffect;
     this.afstore.doc(`users/${this.user.getUID()}`).set({
       posts: firestore.FieldValue.arrayUnion(`${image}/${activeEffect}`)
     }, { merge : true });
@@ -129,15 +150,14 @@ export class UploaderPage implements OnInit {
         likes: [],
         effect: activeEffect
     }, { merge : true });
-*/
+
     this.busy = false;
     this.namaBarang = '';
     this.hargaBarang = 0;
     this.stockBarang = 0;
-    // this.imageURL = null;
+    this.imageCdn = null;
     this.diskripsi = '';
     this.showAlert('Selesai', 'Gambar sukses di Upload!');
     this.router.navigate(['/main/store']);
   }
-
 }

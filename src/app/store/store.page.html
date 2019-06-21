@@ -17,17 +17,28 @@
       <ion-grid>
           <ion-row id="images" *ngIf="coba" align-items-center>
             <ion-col class="image" size="6" *ngFor="let post of coba">
-              <div>
-                <img (click)="goTo(post)" src="{{ post.url }}" />
-                <ion-label>{{ post.nama }}</ion-label>
-                <ion-label>{{ post.harga }}</ion-label>
+              <div (click)="goTo(post)">
+                <div>
+                  <img src="{{ post.url }}" />
+                </div>
+                <div class="disk">
+                      <ion-label>{{ post.nama }}</ion-label>
+                  <ion-grid>
+                    <div class="harga">
+                      <ion-label>RP.</ion-label><ion-label>{{ post.harga | number }}</ion-label>
+                    </div>
+                    <div>
+                      <ion-button size="small">ORDER</ion-button>
+                    </div>
+                  </ion-grid>
+                </div>
               </div>
             </ion-col>
           </ion-row>
       </ion-grid>
   </div>
 
-<!-- 
+
     <div class='produk-terbaru-content'>
         <ion-grid>
             <ion-row id="images" *ngIf="posts" align-items-center>
@@ -39,7 +50,7 @@
             </ion-row>
         </ion-grid>
     </div>
-
+<!--
   <div id="images" *ngIf="(userPost | async)?.posts as posts">
     <div class="images" *ngFor="let post of posts">
           <img (click)="goTo(post)" class="main-image" src="https://ucarecdn.com/{{ post }}/-/scale_crop/200x200/" />
