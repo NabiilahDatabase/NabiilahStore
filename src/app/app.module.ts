@@ -11,7 +11,7 @@ import { AppRoutingModule } from './app-routing.module';
 
 import { AngularFireModule } from '@angular/fire';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
-import { AngularFireStorageModule } from '@angular/fire/storage';
+import { AngularFireStorageModule, StorageBucket } from '@angular/fire/storage';
 import { AngularFireAuthModule } from '@angular/fire/auth';
 
 import { environment } from '../environments/environment';
@@ -41,7 +41,8 @@ import { ShareModule } from './share.module';
     HttpClientModule,
     UserService,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
-    AuthService
+    { provide: StorageBucket, useValue: 'nabiilah-data.appspot.com' },
+    AuthService,
   ],
   bootstrap: [AppComponent]
 })

@@ -24,8 +24,6 @@ export class StorePage implements OnInit {
     this.mainuser = this.afs.doc(`users/${this.user.getUID()}`);
     this.sub = this.mainuser.valueChanges().subscribe(event => {
       this.posts = event.posts;
-      this.username = event.username;
-      this.profilePic = event.profilePic;
     });
   }
 

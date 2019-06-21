@@ -11,6 +11,19 @@
     <ion-button shape="round" color="tertiary" (click)="uploadFile()" *ngIf="!imageURL" fill="outline">UPLOAD</ion-button>
 
     <div *ngIf="imageURL">
+      <ion-img src="imageURL | async"></ion-img>
+      <ion-card-content>
+        <ion-textarea placeholder="Nama Barang" [(ngModel)]="namaBarang"></ion-textarea>
+        <ion-textarea placeholder="Harga Barang" [(ngModel)]="hargaBarang"></ion-textarea>
+        <ion-textarea placeholder="Stock Barang" [(ngModel)]="stockBarang"></ion-textarea>
+        <ion-textarea placeholder="Diskripsi Barang" [(ngModel)]="diskripsi"></ion-textarea>
+        <ion-button shape="round" color="tertiary" (click)="createPost()">POSTING</ion-button>  
+      </ion-card-content>
+    </div>
+
+<!--
+    <div *ngIf="imageURL">
+      <a [href]="downloadURL | async">{{ downloadURL | async }}</a>
       <ion-grid>
         <ion-row>
           <ion-col size="12">
@@ -40,5 +53,6 @@
         </ion-row>
       </ion-grid>
     </div>
+-->
   </div>
 </ion-content>

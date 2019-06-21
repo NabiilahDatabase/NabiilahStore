@@ -5,6 +5,9 @@ import { AngularFirestore } from '@angular/fire/firestore';
 import { firestore } from 'firebase/app';
 import { UserService } from '../user.service';
 import { Router } from '@angular/router';
+import { AngularFireStorage } from '@angular/fire/storage';
+import { finalize } from 'rxjs/operators';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-uploader',
@@ -13,7 +16,11 @@ import { Router } from '@angular/router';
 })
 export class UploaderPage implements OnInit {
 
-  imageURL: string;
+  imageURL: Observable<string>;
+  imageName: string;
+  namaBarang: string;
+  hargaBarang: number;
+  stockBarang: number;
   diskripsi: string;
   busy = false;
 
@@ -33,6 +40,7 @@ export class UploaderPage implements OnInit {
     private alert: AlertController,
     public http: HttpClient,
     public afstore: AngularFirestore,
+    public afStorage: AngularFireStorage,
     public user: UserService,
     private router: Router
   ) { }
@@ -51,7 +59,20 @@ export class UploaderPage implements OnInit {
 
   fileChanged(event) {
     this.busy = true;
-    const files = event.target.files;
+    const file = event.target.files[0];
+    const fileName = new Date().getTime().toString();
+    const filePath = `produk/${fileName}.jpg`;
+    const fileRef = this.afStorage.ref(filePath);
+    const task = this.afStorage.upload(filePath, file);
+    task.snapshotChanges().pipe(
+      finalize(() => {
+        this.imageURL = fileRef.getDownloadURL();
+        this.imageName = fileName;
+        this.busy = false;
+       } )
+    ).subscribe();
+
+    /*
     const data = new FormData();
     data.append('file', files[0]);
     data.append('UPLOADCARE_STORE', '1');
@@ -64,6 +85,7 @@ export class UploaderPage implements OnInit {
       this.imageURL = events['file'];
       this.busy = false;
     });
+    */
   }
 
   setSelected(effect: string) {
@@ -76,10 +98,23 @@ export class UploaderPage implements OnInit {
 
   async createPost() {
     this.busy = true;
-    const image = this.imageURL;
+    const image = this.imageName;
+    const nama = this.namaBarang;
+    const harga = this.hargaBarang;
+    const stock = this.stockBarang;
     const disk = this.diskripsi;
     const activeEffect = this.activeEffect;
 
+    this.afstore.doc(`produk/${image}`).set({
+        nama,
+        stock,
+        harga,
+        disk,
+        likes: [],
+        effect: activeEffect
+    }, { merge : true });
+
+/*
     this.afstore.doc(`users/${this.user.getUID()}`).set({
       posts: firestore.FieldValue.arrayUnion(`${image}/${activeEffect}`)
     }, { merge : true });
@@ -90,9 +125,9 @@ export class UploaderPage implements OnInit {
         likes: [],
         effect: activeEffect
     }, { merge : true });
-
+*/
     this.busy = false;
-    this.imageURL = '';
+    this.imageURL = null;
     this.diskripsi = '';
     this.showAlert('Selesai', 'Gambar sukses di Upload!');
     this.router.navigate(['/main/store']);
