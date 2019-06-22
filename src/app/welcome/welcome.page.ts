@@ -10,9 +10,9 @@ export class WelcomePage implements OnInit {
   slides = [
     {
       img: 'assets/icon/shopping-bag.svg',
-      title: 'Jualan Online<br>Tanpa Stock dan Modal',
+      title: 'Tanpa Stock & Modal',
 // tslint:disable-next-line: max-line-length
-      desc: '<strong>Nabiilahstore</strong> adalah salah satu distributor fashion muslim online terbesar di indonesia dan memiliki lebih dari 100.000 reseller yang tersebar di seluruh indonesia'
+      desc: '<strong>Nabiilahstore</strong> menggunakan sistem dropshiper; yakni semua stock barang, packing hingga pengiriman kami yg melakukan, dan reseller hanya tinggal menjualkan barang'
     },
     {
       img: 'assets/icon/dress.svg',

@@ -10,6 +10,7 @@ const routes: Routes = [
   { path: 'main', loadChildren: './main/main.module#MainPageModule', canActivate: [AuthService] },
 
 
+
 ];
 
 @NgModule({

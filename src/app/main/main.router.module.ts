@@ -11,7 +11,8 @@ const routes: Routes = [
             { path: 'order', loadChildren: '../order/order.module#OrderPageModule' },
             { path: 'store', loadChildren: '../store/store.module#StorePageModule' },
             { path: 'akun', loadChildren: '../akun/akun.module#AkunPageModule' },
-            { path: 'barang/:id', loadChildren: '../barang/barang.module#BarangPageModule' }
+            { path: 'barang/:id', loadChildren: '../barang/barang.module#BarangPageModule' },
+            { path: 'edit-profile', loadChildren: '../edit-profile/edit-profile.module#EditProfilePageModule' },
         ]
     }
 ];

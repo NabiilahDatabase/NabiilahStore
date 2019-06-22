@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { first } from 'rxjs/operators';
+import { auth } from 'firebase';
 
 export interface User {
     uid: string;
@@ -35,6 +36,20 @@ export class UserService {
     getUsername(): string {
         return this.user.username;
     }
+
+    reAuth(username: string, password: string) {
+// tslint:disable-next-line: max-line-length
+        return this.afAuth.auth.currentUser.reauthenticateWithCredential(auth.EmailAuthProvider.credential(username + '@nabiilah.com', password));
+    }
+
+    updatePassword(newpass: string) {
+        return this.afAuth.auth.currentUser.updatePassword(newpass);
+    }
+
+    updateEmail(newemail: string) {
+        return this.afAuth.auth.currentUser.updateEmail(newemail);
+    }
+
     getUID(): string {
         return this.user.uid;
     }
