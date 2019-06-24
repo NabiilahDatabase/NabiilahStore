@@ -1,6 +1,6 @@
 <ion-header>
   <ion-toolbar color="tertiary">
-    <ion-title>store</ion-title>
+    <ion-title>NABIILAH STORE</ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -8,29 +8,22 @@
 
     <app-loading *ngIf="!posts"></app-loading> 
 
-    <div id="profile-info" *ngIf="username">
-      <ion-grid>
-        <ion-row>
-          <ion-col size="4" class="profile-images">
-            <ion-img src="https://ucarecdn.com/{{profilePic}}/-/scale_crop/200x200/"></ion-img>
-          </ion-col>
-          <ion-col size="8">
-            <p>{{ username }}</p>
-            <ion-button shape="round" color="tertiary" routerLink="/main/edit-profile">Edit Profil</ion-button>
-          </ion-col>
-        </ion-row>
-      </ion-grid>
+    <div class="produk-terbaru">
+      <span class='produk-terbaru-title'>PRODUK TERBARU</span>
+      <span class='produk-terbaru-link'>Lihat semua</span>
     </div>
 
-    <ion-grid>
-        <ion-row responsive-sm wrap id="images" *ngIf="posts">
-          <ion-col size="4" class="images" *ngFor="let post of posts">
-            <div>
-              <img (click)="goTo(post)" class="main-image" src="https://ucarecdn.com/{{ post }}/-/scale_crop/200x200/" />
-            </div>
-          </ion-col>
-        </ion-row>
-    </ion-grid>
+    <div class='produk-terbaru-content'>
+        <ion-grid>
+            <ion-row id="images" *ngIf="posts" align-items-center>
+              <ion-col class="image" size="6" *ngFor="let post of posts">
+                <div>
+                  <img (click)="goTo(post)" src="https://ucarecdn.com/{{ post }}/-/scale_crop/200x200/" />
+                </div>
+              </ion-col>
+            </ion-row>
+        </ion-grid>
+    </div>
     <!--
   <div id="images" *ngIf="(userPost | async)?.posts as posts">
     <div class="images" *ngFor="let post of posts">
