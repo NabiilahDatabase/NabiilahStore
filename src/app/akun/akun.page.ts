@@ -11,8 +11,6 @@ import { Router } from '@angular/router';
 })
 
 export class AkunPage implements OnInit {
-  imageURL: string;
-  diskripsi: string;
   busy = false;
 
   mainuser: AngularFirestoreDocument;

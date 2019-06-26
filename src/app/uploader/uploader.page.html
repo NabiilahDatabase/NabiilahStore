@@ -11,7 +11,7 @@
     <ion-button shape="round" color="tertiary" (click)="uploadFile()" *ngIf="!imageURL" fill="outline">UPLOAD</ion-button>
 
     <div *ngIf="imageURL">
-      <ion-img src="imageURL | async"></ion-img>
+      <ion-img [src]="imageURL | async"></ion-img>
       <ion-card-content>
         <ion-textarea placeholder="Nama Barang" [(ngModel)]="namaBarang"></ion-textarea>
         <ion-textarea placeholder="Harga Barang" [(ngModel)]="hargaBarang"></ion-textarea>

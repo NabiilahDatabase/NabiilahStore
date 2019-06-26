@@ -17,6 +17,7 @@ import { Observable } from 'rxjs';
 export class UploaderPage implements OnInit {
 
   imageURL: Observable<string>;
+  url: string;
   imageName: string;
   namaBarang: string;
   hargaBarang: number;
@@ -67,6 +68,7 @@ export class UploaderPage implements OnInit {
     task.snapshotChanges().pipe(
       finalize(() => {
         this.imageURL = fileRef.getDownloadURL();
+        this.imageURL.subscribe(url => (this.url = url));
         this.imageName = fileName;
         this.busy = false;
        } )
@@ -103,15 +105,17 @@ export class UploaderPage implements OnInit {
     const harga = this.hargaBarang;
     const stock = this.stockBarang;
     const disk = this.diskripsi;
-    const activeEffect = this.activeEffect;
+    const url = this.url;
+    // const activeEffect = this.activeEffect;
 
     this.afstore.doc(`produk/${image}`).set({
         nama,
         stock,
         harga,
         disk,
+        url,
         likes: [],
-        effect: activeEffect
+        // effect: activeEffect
     }, { merge : true });
 
 /*
@@ -127,7 +131,10 @@ export class UploaderPage implements OnInit {
     }, { merge : true });
 */
     this.busy = false;
-    this.imageURL = null;
+    this.namaBarang = '';
+    this.hargaBarang = 0;
+    this.stockBarang = 0;
+    // this.imageURL = null;
     this.diskripsi = '';
     this.showAlert('Selesai', 'Gambar sukses di Upload!');
     this.router.navigate(['/main/store']);
