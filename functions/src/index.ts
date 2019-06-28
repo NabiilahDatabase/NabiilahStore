@@ -8,6 +8,7 @@ export const getPost = functions.https.onCall(async (req, res) => {
     return docs.docs.map(doc => doc.data());
 });
 
+
 // // Start writing Firebase Functions
 // // https://firebase.google.com/docs/functions/typescript
 //

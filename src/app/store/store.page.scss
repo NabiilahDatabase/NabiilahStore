@@ -34,6 +34,26 @@
     background: linear-gradient(180deg,#ffffff 0,#efefef 2.5rem);
 }
 
+.disk {
+    padding: .5rem;
+    background: #ffffff;
+    position: relative;
+}
+
+.nama {
+    white-space: normal;
+    height: 1.75rem;
+    word-break: break-all;
+    margin-bottom: .25rem;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+}
+
+.harga {
+    color: #54388E
+}
+
 ion-grid {
     padding: 0;
     display: -webkit-box;
