@@ -12,11 +12,16 @@ import { firestore } from 'firebase';
 export class BarangPage implements OnInit {
 
   postID: string;
-  post: any;
+  produk: any;
   postRef: AngularFirestoreDocument;
   sub;
+
   heartType = 'heart-empty';
-  effect = '';
+  diskripsi: string;
+  harga: number;
+  nama: string;
+  stock: number;
+  url: string;
 
   constructor(
     private route: ActivatedRoute,
@@ -25,10 +30,14 @@ export class BarangPage implements OnInit {
 
   ngOnInit() {
     this.postID = this.route.snapshot.paramMap.get('id');
-    this.postRef = this.afs.doc(`posts/${this.postID}`);
+    this.postRef = this.afs.doc(`produk/${this.postID}`);
     this.sub = this.postRef.valueChanges().subscribe(val => {
-      this.post = val;
-      this.effect = val.effect;
+      this.produk = val;
+      this.diskripsi = val.disk;
+      this.harga = val.harga;
+      this.nama = val.nama;
+      this.stock = val.stock;
+      this.url = val.url;
       this.heartType = val.likes.includes(this.user.getUID()) ? 'heart' : 'heart-empty';
     });
   }
@@ -37,6 +46,7 @@ export class BarangPage implements OnInit {
   ngOnDestroy() {
     this.sub.unsubscribe();
   }
+
   toggleHeart() {
     if (this.heartType === 'heart-empty') {
       this.postRef.update({

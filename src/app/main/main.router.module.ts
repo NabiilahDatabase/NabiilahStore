@@ -14,6 +14,7 @@ const routes: Routes = [
             { path: 'barang/:id', loadChildren: '../barang/barang.module#BarangPageModule' },
             { path: 'edit-profile', loadChildren: '../edit-profile/edit-profile.module#EditProfilePageModule' },
             { path: 'uploader', loadChildren: '../uploader/uploader.module#UploaderPageModule' },
+            { path: 'cart', loadChildren: '../cart/cart.module#CartPageModule' },
         ]
     }
 ];

@@ -5,7 +5,12 @@ admin.initializeApp();
 
 export const getPost = functions.https.onCall(async (req, res) => {
     const docs = await admin.firestore().collection('produk').limit(10).get();
-    return docs.docs.map(doc => doc.data());
+    return docs.docs.map(doc => {
+        return {
+            postID: doc.id,
+            ...doc.data()
+        };
+    });
 });
 
 

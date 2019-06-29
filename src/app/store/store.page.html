@@ -6,6 +6,29 @@
 
 <ion-content fullscreen="true">
 
+  <div *ngFor="let cat of items">
+    <ion-row no-padding class="category-banner">
+      <ion-col text-left align-self-center button tappable (click)="cat.expanded = !cat.expanded">
+        {{ cat.category }}
+      </ion-col>
+    </ion-row>
+    <ion-slides [options]="sliderConfig" class="category-block">
+      <ion-slide *ngFor="let product of cat.products">
+        <ion-card>
+          <ion-card-header>
+            <ion-card-title>
+              {{ product.name }} - Rp.{{ product.price }}
+            </ion-card-title>
+            <ion-card-content>
+              <img src="https://via.placeholder.com/300x300"/>
+              <ion-button expand="full" color="tertiary" (click)="addToCart(product)">ADD TO CART</ion-button>
+            </ion-card-content>
+          </ion-card-header>
+        </ion-card>
+      </ion-slide>
+    </ion-slides>
+  </div>
+
     <app-loading *ngIf="!posts"></app-loading> 
 
     <div class="produk-terbaru">
@@ -17,18 +40,18 @@
       <ion-grid>
           <ion-row id="images" *ngIf="coba" align-items-center>
             <ion-col class="image" size="6" *ngFor="let post of coba">
-              <div (click)="goTo(post)">
+              <div (click)="goTo(post.postID)">
                 <div>
                   <img src="{{ post.url }}" />
                 </div>
                 <div class="disk">
-                      <ion-label>{{ post.nama }}</ion-label>
+                      <ion-label class="nama">{{ post.nama }}</ion-label>
                   <ion-grid>
                     <div class="harga">
-                      <ion-label>RP.</ion-label><ion-label>{{ post.harga | number }}</ion-label>
+                      <ion-label class="rp">RP</ion-label><ion-label>{{ post.harga | number }}</ion-label>
                     </div>
                     <div>
-                      <ion-button size="small">ORDER</ion-button>
+                      <ion-button class="add" size="small" expand="full" color="tertiary">ORDER</ion-button>
                     </div>
                   </ion-grid>
                 </div>
@@ -38,7 +61,7 @@
       </ion-grid>
   </div>
 
-
+<!--
     <div class='produk-terbaru-content'>
         <ion-grid>
             <ion-row id="images" *ngIf="posts" align-items-center>
@@ -50,7 +73,7 @@
             </ion-row>
         </ion-grid>
     </div>
-<!--
+
   <div id="images" *ngIf="(userPost | async)?.posts as posts">
     <div class="images" *ngFor="let post of posts">
           <img (click)="goTo(post)" class="main-image" src="https://ucarecdn.com/{{ post }}/-/scale_crop/200x200/" />

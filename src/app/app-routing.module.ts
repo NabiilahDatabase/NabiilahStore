@@ -8,7 +8,6 @@ const routes: Routes = [
   { path: 'login', loadChildren: './login/login.module#LoginPageModule' },
   { path: 'register', loadChildren: './register/register.module#RegisterPageModule' },
   { path: 'main', loadChildren: './main/main.module#MainPageModule', canActivate: [AuthService] },
-
 ];
 
 @NgModule({

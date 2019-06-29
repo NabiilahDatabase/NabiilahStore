@@ -35,23 +35,38 @@
 }
 
 .disk {
-    padding: .5rem;
+    // padding: .5rem; // tombol di tengah
     background: #ffffff;
     position: relative;
 }
 
 .nama {
+    padding: .4rem;
+    padding-left: .7rem;
     white-space: normal;
-    height: 1.75rem;
     word-break: break-all;
-    margin-bottom: .25rem;
     display: -webkit-box;
     -webkit-box-orient: vertical;
     -webkit-line-clamp: 2;
 }
 
 .harga {
-    color: #54388E
+    color: #54388E;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+.border-harga {
+    border-top: thin solid #54388E;
+}
+
+.rp {
+    font-size: .82rem;
+}
+
+.add {
+    margin: 0;
+    height: 23px;
 }
 
 ion-grid {
