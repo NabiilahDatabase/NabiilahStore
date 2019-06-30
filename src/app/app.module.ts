@@ -18,8 +18,6 @@ import { FunctionsRegionToken, AngularFireFunctionsModule } from '@angular/fire/
 import { environment } from '../environments/environment';
 import { HttpClientModule } from '@angular/common/http';
 
-import { IonicHeaderParallaxModule } from 'ionic-header-parallax';
-
 import { UserService } from './user.service';
 import { AuthService } from './auth.service';
 import { ShareModule } from './share.module';
@@ -29,7 +27,6 @@ import { ShareModule } from './share.module';
   entryComponents: [],
   imports: [
     BrowserModule,
-    IonicHeaderParallaxModule,
     IonicModule.forRoot(),
     AppRoutingModule,
     AngularFireModule.initializeApp(environment.firebase),

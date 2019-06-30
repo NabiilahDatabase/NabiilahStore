@@ -4,7 +4,7 @@ import { UserService } from '../user.service';
 import { Router } from '@angular/router';
 import { AngularFireFunctions } from '@angular/fire/functions';
 import { Observable } from 'rxjs';
-import { CartService } from '../cart.service';
+import { CartService, Produk } from '../cart.service';
 
 @Component({
   selector: 'app-store',
@@ -14,7 +14,7 @@ import { CartService } from '../cart.service';
 export class StorePage implements OnInit {
 
   cart = [];
-  items = [];
+  items: Produk[];
   sliderConfig = {
     spaceBetwen: 10,
     centeredSlides: true,
@@ -48,15 +48,17 @@ export class StorePage implements OnInit {
   }
 
   ngOnInit() {
+/*
     const getPost = this.aff.httpsCallable('getPost');
     this.task = getPost({}).subscribe(data => {
       this.coba = data;
       console.log('posting firebase');
       console.log(data);
-    });
+    }); */
 
-    this.cart = this.cartService.getCart();
-    this.items = this.cartService.getProduct();
+    this.task = this.cartService.getProducts().subscribe(res => {
+      this.items = res;
+    });
   }
 
   OnDestroy() {
@@ -68,6 +70,6 @@ export class StorePage implements OnInit {
   }
 
   openCart() {
-    this.router.navigate(['cart']);
+    this.router.navigate(['/main/cart']);
   }
 }

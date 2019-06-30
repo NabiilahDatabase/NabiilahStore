@@ -1,36 +1,56 @@
 import { Injectable } from '@angular/core';
+import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/firestore';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
+
+export interface Produk {
+  id: string;
+  nama: string;
+  disk: string;
+  harga: number;
+  stock: number;
+  likes;
+  url: string;
+}
 
 @Injectable({
   providedIn: 'root'
 })
 export class CartService {
 
-  private data = [
-    {
-      category: 'Pizza',
-      expended: true,
-      products: [
-        {id: 0, name: 'Salami', price: 9000},
-        {id: 1, name: 'Classic', price: 8000},
-        {id: 2, name: 'Tuna', price: 12000},
-        {id: 3, name: 'Hawai', price: 10000}
-      ]
-    },
-  ];
+  private productsCollections: AngularFirestoreCollection<Produk>;
+  private products: Observable<Produk[]>;
 
-  private cart = [];
-
-  constructor() { }
-
-  getProduct() {
-    return this.data;
+  constructor(db: AngularFirestore) {
+    this.productsCollections = db.collection<Produk>('produk');
+    this.products = this.productsCollections.snapshotChanges().pipe(
+      map(actions => {
+        return actions.map(a => {
+          const data = a.payload.doc.data();
+          const id = a.payload.doc.id;
+          return { id, ...data };
+        });
+      })
+    );
   }
 
-  getCart() {
-    return this.cart;
+  getProducts() {
+    return this.products;
   }
 
-  addProduct(product) {
-    this.cart.push(product);
+  getProduct(id) {
+    return this.productsCollections.doc<Produk>(id).valueChanges();
+  }
+
+  updateProduct(product: Produk, id: string) {
+    return this.productsCollections.doc(id).update(product);
+  }
+
+  addProduct(product: Produk) {
+    this.productsCollections.add(product);
+  }
+
+  removeProduct(id: string) {
+    return this.productsCollections.doc(id).delete();
   }
 }
