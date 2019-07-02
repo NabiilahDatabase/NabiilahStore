@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { Produk, CartService } from '../cart.service';
+import { Produk, CartService, Cart } from '../cart.service';
+import { UserService } from '../user.service';
 
 @Component({
   selector: 'app-cart',
@@ -7,36 +8,36 @@ import { Produk, CartService } from '../cart.service';
   styleUrls: ['./cart.page.scss'],
 })
 export class CartPage implements OnInit {
-
-  product: Produk[];
-  selectedItems = [];
+  productSum: number;
+  selectedItems: Cart[];
   total = 0;
 
-  constructor(private cartSevice: CartService) { }
+  constructor(private cartSevice: CartService, private user: UserService) { }
 
   ngOnInit() {
-      this.cartSevice.getProducts().subscribe(res => {
-      this.product = res;
+    this.cartSevice.getCart(this.user.getUID()).subscribe(res => {
+      // this.product = res;
+      this.productSum = res.length;
+
+      const selected = {};
+      for (const obj of res) {
+        if (selected[obj.id]) {
+          selected[obj.id].jumlah++;
+        } else {
+          selected[obj.id] = {...obj, jumlah: 1};
+        }
+      }
+      console.log(selected);
+      this.selectedItems = Object.keys(selected).map(key => selected[key]);
+      console.log('items=', this.selectedItems);
+      this.total = this.selectedItems.reduce((a, b) => a + (b.jumlah * b.harga), 0);
     });
+
   }
 
   remove(item) {
-    this.cartSevice.removeProduct(item.id);
+    this.cartSevice.removeCart(this.user.getUID(), item.id);
   }
-/*
-    const items = this.cartSevice.getCart();
-    const selected = {};
-    for (let obj of items) {
-      if (selected[obj.id]) {
-        selected[obj.id].count++;
-      } else {
-        selected[obj.id] = {...obj, count: 1};
-      }
-    }
 
-    this.selectedItems = Object.keys(selected).map(key => selected[key]);
-    console.log('items=', this.selectedItems);
-    this.total = this.selectedItems.reduce((a, b) => a + (b.count * b.price), 0);
-*/
 }
 

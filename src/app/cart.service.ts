@@ -107,7 +107,7 @@ export class CartService {
   removeProduct(id: string) {
     return this.productsCollections.doc(id).delete();
   }
-  removeCart(id: string) {
-    return this.cart.doc(id).delete();
+  removeCart(id: string, pid: string) {
+    return this.cart.doc(id).collection('cart').doc(pid).delete();
   }
 }

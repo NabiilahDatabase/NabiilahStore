@@ -66,11 +66,11 @@ export class StorePage implements OnInit {
 
     this.cartService.getCarts().subscribe(res => {
       this.cart = res;
-      this.cartLenght = res.length;
     });
 
     this.cartService.getCart(this.id).subscribe(res => {
       this.coba = res;
+      this.cartLenght = res.length;
     });
   }
 
