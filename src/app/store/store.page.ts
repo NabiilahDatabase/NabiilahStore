@@ -4,7 +4,7 @@ import { UserService } from '../user.service';
 import { Router } from '@angular/router';
 import { AngularFireFunctions } from '@angular/fire/functions';
 import { Observable } from 'rxjs';
-import { CartService, Produk } from '../cart.service';
+import { CartService, Produk, Cart } from '../cart.service';
 
 @Component({
   selector: 'app-store',
@@ -13,8 +13,11 @@ import { CartService, Produk } from '../cart.service';
 })
 export class StorePage implements OnInit {
 
-  cart = [];
+  id = null;
+  cart: Cart[];
+  cartLenght: number;
   items: Produk[];
+
   sliderConfig = {
     spaceBetwen: 10,
     centeredSlides: true,
@@ -25,7 +28,7 @@ export class StorePage implements OnInit {
   userPost: any;
   sub;
   posts;
-  coba;
+  coba: Produk[];
   task;
   username: string;
   profilePic: string;
@@ -41,6 +44,7 @@ export class StorePage implements OnInit {
         this.posts = event.posts;
         console.log('posting reg');
       });
+      this.id = this.user.getUID();
     }
 
   goTo(postID: string) {
@@ -59,6 +63,15 @@ export class StorePage implements OnInit {
     this.task = this.cartService.getProducts().subscribe(res => {
       this.items = res;
     });
+
+    this.cartService.getCarts().subscribe(res => {
+      this.cart = res;
+      this.cartLenght = res.length;
+    });
+
+    this.cartService.getCart(this.id).subscribe(res => {
+      this.coba = res;
+    });
   }
 
   OnDestroy() {
@@ -66,7 +79,7 @@ export class StorePage implements OnInit {
   }
 
   addToCart(product) {
-    this.cartService.addProduct(product);
+    this.cartService.addCart(product, this.id);
   }
 
   openCart() {

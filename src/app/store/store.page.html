@@ -2,7 +2,7 @@
   <ion-toolbar color="tertiary">
     <ion-title>NABIILAH STORE</ion-title>
     <ion-buttons slot="end" (click)="openCart()">
-      <ion-badge *ngIf="cart.length > 0">{{ cart.length }}</ion-badge>
+      <ion-badge >{{ cartLenght }}</ion-badge>
       <ion-icon name="cart" slot="icon-only"></ion-icon>
     </ion-buttons>
   </ion-toolbar>
@@ -20,7 +20,7 @@
 -->
 
     <ion-slides [options]="sliderConfig" class="category-block">
-      <ion-slide *ngFor="let product of items">
+      <ion-slide *ngFor="let product of coba">
         <!--<div *ngIf="cat.expanded">-->
         <ion-card>
           <ion-card-header>
@@ -38,7 +38,7 @@
     </ion-slides>
   </div>
 
-    <app-loading *ngIf="!posts"></app-loading> 
+    <app-loading *ngIf="!items"></app-loading> 
 
     <div class="produk-terbaru">
       <span class='produk-terbaru-title'>PRODUK TERBARU</span>
@@ -47,10 +47,10 @@
 
     <div class='produk-terbaru-content'>
       <ion-grid>
-          <ion-row id="images" *ngIf="coba" align-items-center>
-            <ion-col class="image" size="6" *ngFor="let post of coba">
-              <div (click)="goTo(post.postID)">
-                <div>
+          <ion-row id="images" *ngIf="items" align-items-center>
+            <ion-col class="image" size="6" *ngFor="let post of items">
+              <div>
+                <div (click)="goTo(post.id)">
                   <img src="{{ post.url }}" />
                 </div>
                 <div class="disk">
@@ -60,7 +60,7 @@
                       <ion-label class="rp">RP</ion-label><ion-label>{{ post.harga | number }}</ion-label>
                     </div>
                     <div>
-                      <ion-button class="add" size="small" expand="full" color="tertiary">ORDER</ion-button>
+                      <ion-button class="add" size="small" expand="full" color="tertiary" (click)="addToCart(post)">ORDER</ion-button>
                     </div>
                   </ion-grid>
                 </div>
