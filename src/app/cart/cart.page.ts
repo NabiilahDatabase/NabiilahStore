@@ -15,8 +15,9 @@ export class CartPage implements OnInit {
   constructor(private cartSevice: CartService, private user: UserService) { }
 
   ngOnInit() {
-    this.cartSevice.getCart(this.user.getUID()).subscribe(res => {
+    this.cartSevice.getCarts().subscribe(res => {
       // this.product = res;
+      console.log(res);
       this.productSum = res.length;
 
       const selected = {};
@@ -27,16 +28,19 @@ export class CartPage implements OnInit {
           selected[obj.id] = {...obj, jumlah: 1};
         }
       }
-      console.log(selected);
       this.selectedItems = Object.keys(selected).map(key => selected[key]);
-      console.log('items=', this.selectedItems);
       this.total = this.selectedItems.reduce((a, b) => a + (b.jumlah * b.harga), 0);
     });
 
   }
 
   remove(item) {
-    this.cartSevice.removeCart(this.user.getUID(), item.id);
+    this.cartSevice.removeCart(this.user.getUID(), item.cid);
+    console.log(item);
+  }
+
+  test(text) {
+    console.log(text);
   }
 
 }

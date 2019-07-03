@@ -33,10 +33,12 @@ export class CartService {
   private cart: AngularFirestoreCollection<Cart>;
   private cartItems: Observable<Cart[]>;
 
-  private afs: AngularFirestore;
-  private user: UserService;
+  cartBox: Cart;
+  uid: string;
 
-  constructor(db: AngularFirestore) {
+  private afs: AngularFirestore;
+
+  constructor(db: AngularFirestore, user: UserService) {
     this.productsCollections = db.collection<Produk>('produk');
     this.products = this.productsCollections.snapshotChanges().pipe(
       map(actions => {
@@ -48,8 +50,9 @@ export class CartService {
       })
     );
 
+    this.uid = user.getUID();
     this.cart = db.collection<Cart>('cart');
-    this.cartItems = this.cart.snapshotChanges().pipe(
+    this.cartItems = this.cart.doc(user.getUID()).collection<Cart>('cart').snapshotChanges().pipe(
       map(actions => {
         return actions.map(a => {
           const data = a.payload.doc.data();
@@ -67,20 +70,11 @@ export class CartService {
   getCarts() {
     return this.cartItems;
   }
-
   getProduct(id) {
     return this.productsCollections.doc(id).valueChanges();
   }
-  getCart(uid) {
-    return this.cart.doc(uid).collection<Produk>('cart').snapshotChanges().pipe(
-      map(actions => {
-        return actions.map(a => {
-          const data = a.payload.doc.data();
-          const id = a.payload.doc.id;
-          return { id, ...data };
-        });
-      })
-    );
+  getCart(pid) {
+    return this.cart.doc(this.uid).collection<Cart>('cart').doc(pid).valueChanges();
 /*
     this.cart.doc<Cart>(id).valueChanges().subscribe(res => {
             console.log(res['cart'] + ' coba');
@@ -100,14 +94,27 @@ export class CartService {
   addProduct(product: Produk) {
     this.productsCollections.add(product);
   }
-  addCart(cartItems: Cart, id: string) {
-    this.cart.doc(id).collection('cart').add(cartItems);
+  addCart(cartItems: Produk, uid: string) {
+    let jum: Cart;
+    this.getCart(cartItems.id).subscribe(res => {
+      jum = res;
+    });
+    console.log(jum);
+    this.cartBox = {
+      id: cartItems.id,
+      nama: cartItems.nama,
+      harga: cartItems.harga,
+      jumlah: 1,
+      url: cartItems.url
+    };
+    this.cart.doc(uid).collection('cart').doc(cartItems.id).set(this.cartBox, { merge: true });
   }
 
   removeProduct(id: string) {
     return this.productsCollections.doc(id).delete();
   }
-  removeCart(id: string, pid: string) {
-    return this.cart.doc(id).collection('cart').doc(pid).delete();
+  removeCart(uid: string, pid: string) {
+    console.log(pid + ' dihapus');
+    return this.cart.doc(uid).collection('cart').doc(pid).delete();
   }
 }

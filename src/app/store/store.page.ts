@@ -13,8 +13,8 @@ import { CartService, Produk, Cart } from '../cart.service';
 })
 export class StorePage implements OnInit {
 
-  id = null;
-  cart: Cart[];
+  id;
+  cart: Cart;
   cartLenght: number;
   items: Produk[];
 
@@ -28,7 +28,7 @@ export class StorePage implements OnInit {
   userPost: any;
   sub;
   posts;
-  coba: Produk[];
+  coba: Cart[];
   task;
   username: string;
   profilePic: string;
@@ -42,7 +42,6 @@ export class StorePage implements OnInit {
       this.mainuser = this.afs.doc(`users/${this.user.getUID()}`);
       this.sub = this.mainuser.valueChanges().subscribe(event => {
         this.posts = event.posts;
-        console.log('posting reg');
       });
       this.id = this.user.getUID();
     }
@@ -65,10 +64,6 @@ export class StorePage implements OnInit {
     });
 
     this.cartService.getCarts().subscribe(res => {
-      this.cart = res;
-    });
-
-    this.cartService.getCart(this.id).subscribe(res => {
       this.coba = res;
       this.cartLenght = res.length;
     });
