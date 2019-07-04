@@ -74,7 +74,7 @@ export class CartService {
     return this.productsCollections.doc(id).valueChanges();
   }
   getCart(pid) {
-    return this.cart.doc(this.uid).collection<Cart>('cart').doc(pid).valueChanges();
+    return this.cart.doc(this.uid).collection('cart').doc<Cart>(pid).valueChanges();
 /*
     this.cart.doc<Cart>(id).valueChanges().subscribe(res => {
             console.log(res['cart'] + ' coba');
@@ -82,6 +82,19 @@ export class CartService {
             return res['cart'];
           });
 */
+  }
+
+  async getJumlah(pid) {
+    try {
+      const doc = await this.cart.doc(this.uid).collection('cart').doc<Cart>(pid).ref.get();
+      if (doc.exists) {
+        console.log('Doc data: ', doc.data());
+      } else {
+        console.log('Document not exist');
+      }
+    } catch (error) {
+      console.log('Error getting document:', error);
+    }
   }
 
   updateProduct(product: Produk, id: string) {

@@ -74,7 +74,8 @@ export class StorePage implements OnInit {
   }
 
   addToCart(product) {
-    this.cartService.addCart(product, this.id);
+    // this.cartService.addCart(product, this.id);
+    this.cartService.getJumlah(product.postID);
   }
 
   openCart() {
