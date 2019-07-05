@@ -65,7 +65,11 @@ export class StorePage implements OnInit {
 
     this.cartService.getCarts().subscribe(res => {
       this.coba = res;
-      this.cartLenght = res.length;
+      this.cartLenght = 0;
+      for (const obj of res) {
+        this.cartLenght += obj.jumlah;
+        console.log('getCart ' + obj.jumlah);
+      }
     });
   }
 
@@ -75,7 +79,7 @@ export class StorePage implements OnInit {
 
   addToCart(product) {
     // this.cartService.addCart(product, this.id);
-    this.cartService.getJumlah(product.postID);
+    this.cartService.add(product);
   }
 
   openCart() {

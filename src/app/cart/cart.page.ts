@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Produk, CartService, Cart } from '../cart.service';
 import { UserService } from '../user.service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-cart',
@@ -10,6 +11,7 @@ import { UserService } from '../user.service';
 export class CartPage implements OnInit {
   productSum: number;
   selectedItems: Cart[];
+  produk: Cart[];
   total = 0;
 
   constructor(private cartSevice: CartService, private user: UserService) { }
@@ -18,8 +20,12 @@ export class CartPage implements OnInit {
     this.cartSevice.getCarts().subscribe(res => {
       // this.product = res;
       console.log(res);
-      this.productSum = res.length;
+      this.produk = res;
+      for (const obj of res) {
+        this.productSum += obj.jumlah;
+      }
 
+      /*
       const selected = {};
       for (const obj of res) {
         if (selected[obj.id]) {
@@ -28,8 +34,9 @@ export class CartPage implements OnInit {
           selected[obj.id] = {...obj, jumlah: 1};
         }
       }
-      this.selectedItems = Object.keys(selected).map(key => selected[key]);
-      this.total = this.selectedItems.reduce((a, b) => a + (b.jumlah * b.harga), 0);
+      */
+      // this.selectedItems = Object.keys(selected).map(key => selected[key]);
+      // this.total = this.selectedItems.reduce((a, b) => a + (b.jumlah * b.harga), 0);
     });
 
   }

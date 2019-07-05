@@ -9,7 +9,7 @@
 
 <ion-content>
   <ion-list>
-    <ion-item-sliding *ngFor="let item of selectedItems" lines="inset">
+    <ion-item-sliding *ngFor="let item of produk" lines="inset">
       <ion-item>
         {{ item.jumlah }} {{ item.nama }} - {{ item.harga | currency:'IDR' }}
         <ion-label slot="end" text-right>{{ (item.harga * item.jumlah) | currency:'IDR' }}</ion-label>

@@ -84,16 +84,32 @@ export class CartService {
 */
   }
 
-  async getJumlah(pid) {
+  async add(p) {
     try {
-      const doc = await this.cart.doc(this.uid).collection('cart').doc<Cart>(pid).ref.get();
+      const doc = await this.cart.doc(this.uid).collection('cart').doc<Cart>(p.id).ref.get();
       if (doc.exists) {
-        console.log('Doc data: ', doc.data());
+        const data = {
+          id: doc.data().id,
+          nama: doc.data().nama,
+          harga: doc.data().harga,
+          url: doc.data().url,
+          jumlah: doc.data().jumlah + 1
+        };
+        this.cart.doc(this.uid).collection('cart').doc<Cart>(p.id).update(data);
+        console.log('Doc data: ', data);
       } else {
-        console.log('Document not exist');
+        const data = {
+          id: p.id,
+          nama: p.nama,
+          harga: p.harga,
+          url: p.url,
+          jumlah: 1
+        };
+        this.cart.doc(this.uid).collection('cart').doc(p.id).set(data, { merge: true });
+        console.log('Document added');
       }
     } catch (error) {
-      console.log('Error getting document:', error);
+      console.log('Error getting Cart:', error);
     }
   }
 
