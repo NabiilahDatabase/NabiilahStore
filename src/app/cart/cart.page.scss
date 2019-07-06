@@ -1,0 +1,51 @@
+.harga {
+    margin-bottom: 0px;
+    text-align: right;
+}
+
+.subharga {
+    color: #54388E;
+    font-size: 1rem;
+}
+
+.count {
+    display: -webkit-box;
+}
+
+ion-thumbnail {
+    height: 65px;
+    width: 65px;
+}
+
+.add {
+    --width: 30px;
+    --height: 30px;
+    --vertical-align: middle;
+    --horizontal-align: middle;
+    --padding-start: 0px;
+    --padding-end: 0px;
+}
+
+.input {
+    width: 20px;
+    height: 30px;
+    padding: 0px;
+    margin-left: 15px;
+    border: 0px solid;
+    font-size: 15px;
+    color: #54388E;
+    --padding-start: 8px;
+}
+
+ion-item.in {
+    --padding-start: 0;
+    --inner-padding: 10px;
+}
+
+div.btn {
+    height: 30px;
+    align-items: center;
+    justify-content: center;
+    padding-left: 0px;
+    padding-right: 0px;
+}

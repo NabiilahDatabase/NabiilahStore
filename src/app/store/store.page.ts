@@ -17,6 +17,7 @@ export class StorePage implements OnInit {
   cart: Cart;
   cartLenght: number;
   items: Produk[];
+  totalan: number;
 
   sliderConfig = {
     spaceBetwen: 10,
@@ -51,24 +52,15 @@ export class StorePage implements OnInit {
   }
 
   ngOnInit() {
-/*
-    const getPost = this.aff.httpsCallable('getPost');
-    this.task = getPost({}).subscribe(data => {
-      this.coba = data;
-      console.log('posting firebase');
-      console.log(data);
-    }); */
-
     this.task = this.cartService.getProducts().subscribe(res => {
       this.items = res;
     });
-
     this.cartService.getCarts().subscribe(res => {
       this.coba = res;
       this.cartLenght = 0;
       for (const obj of res) {
         this.cartLenght += obj.jumlah;
-        console.log('getCart ' + obj.jumlah);
+        this.totalan += obj.harga;
       }
     });
   }

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Produk, CartService, Cart } from '../cart.service';
+import { CartService, Cart } from '../cart.service';
 import { UserService } from '../user.service';
 import { Observable } from 'rxjs';
 
@@ -10,19 +10,21 @@ import { Observable } from 'rxjs';
 })
 export class CartPage implements OnInit {
   productSum: number;
+  totalan = 0;
   selectedItems: Cart[];
   produk: Cart[];
-  total = 0;
 
-  constructor(private cartSevice: CartService, private user: UserService) { }
+  constructor(
+    private cartSevice: CartService,
+    private user: UserService
+    ) { }
 
   ngOnInit() {
     this.cartSevice.getCarts().subscribe(res => {
-      // this.product = res;
-      console.log(res);
       this.produk = res;
       for (const obj of res) {
         this.productSum += obj.jumlah;
+        this.totalan += obj.harga;
       }
 
       /*

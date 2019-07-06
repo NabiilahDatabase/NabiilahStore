@@ -88,7 +88,7 @@ export class CartService {
     try {
       const doc = await this.cart.doc(this.uid).collection('cart').doc<Cart>(p.id).ref.get();
       if (doc.exists) {
-        const data = {
+        const data: Cart = {
           id: doc.data().id,
           nama: doc.data().nama,
           harga: doc.data().harga,
@@ -96,9 +96,9 @@ export class CartService {
           jumlah: doc.data().jumlah + 1
         };
         this.cart.doc(this.uid).collection('cart').doc<Cart>(p.id).update(data);
-        console.log('Doc data: ', data);
+        console.log('Tambah jumlah');
       } else {
-        const data = {
+        const data: Cart = {
           id: p.id,
           nama: p.nama,
           harga: p.harga,
@@ -106,7 +106,7 @@ export class CartService {
           jumlah: 1
         };
         this.cart.doc(this.uid).collection('cart').doc(p.id).set(data, { merge: true });
-        console.log('Document added');
+        console.log('Masuk Cartbaru');
       }
     } catch (error) {
       console.log('Error getting Cart:', error);
