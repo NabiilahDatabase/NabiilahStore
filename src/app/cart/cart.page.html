@@ -9,10 +9,10 @@
 
 <ion-content>
 
-  <app-loading *ngIf="!produk"></app-loading>
+  <app-loading *ngIf="!cart"></app-loading>
 
   <ion-list>
-    <ion-item-sliding *ngFor="let item of produk" lines="inset">
+    <ion-item-sliding *ngFor="let item of cart" lines="inset">
       <ion-item>
         <ion-thumbnail slot="start">
           <ion-img src="{{ item.url }}"></ion-img>
@@ -21,13 +21,13 @@
         <h2>{{ item.nama | uppercase }}</h2>
         <div class="count">
           <div class="btn">
-            <ion-button expand="full" fill="clear" class="add"><ion-icon slot="icon-only" name="remove-circle-outline"></ion-icon></ion-button>
+            <ion-button expand="full" fill="clear" class="add" (click)="updateCart(item,-1)"><ion-icon slot="icon-only" name="remove-circle-outline"></ion-icon></ion-button>
           </div>
             <ion-item class="in">
               <ion-input class="input" value="{{ item.jumlah }}"></ion-input>
             </ion-item>
           <div class="btn">
-            <ion-button expand="full" fill="clear" class="add"><ion-icon slot="icon-only" name="add-circle-outline"></ion-icon></ion-button>
+            <ion-button expand="full" fill="clear" class="add" (click)="updateCart(item,1)"><ion-icon slot="icon-only" name="add-circle-outline"></ion-icon></ion-button>
           </div>
         </div>
       </ion-label>

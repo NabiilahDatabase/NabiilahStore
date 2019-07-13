@@ -10,18 +10,10 @@
 
 <ion-content fullscreen="true">
 
-  <div>
 <!--
-    <ion-row no-padding class="category-banner">
-      <ion-col text-left align-self-center button tappable (click)="cat.expanded = !cat.expanded">
-        {{ cat.category }}
-      </ion-col>
-    </ion-row>
--->
-
+  <div>
     <ion-slides [options]="sliderConfig" class="category-block">
-      <ion-slide *ngFor="let product of coba">
-        <!--<div *ngIf="cat.expanded">-->
+      <ion-slide *ngFor="let product of cart">
         <ion-card>
           <ion-card-header>
             <ion-card-title>
@@ -33,12 +25,12 @@
             </ion-card-content>
           </ion-card-header>
         </ion-card>
-        <!--</div>-->
       </ion-slide>
     </ion-slides>
   </div>
+-->
 
-    <app-loading *ngIf="!items"></app-loading> 
+    <app-loading *ngIf="!produk"></app-loading> 
 
     <div class="produk-terbaru">
       <span class='produk-terbaru-title'>PRODUK TERBARU</span>
@@ -47,8 +39,8 @@
 
     <div class='produk-terbaru-content'>
       <ion-grid>
-          <ion-row id="images" *ngIf="items" align-items-center>
-            <ion-col class="image" size="6" *ngFor="let post of items">
+          <ion-row id="images" *ngIf="produk" align-items-center>
+            <ion-col class="image" size="6" *ngFor="let post of produk">
               <div>
                 <div (click)="goTo(post.id)">
                   <img src="{{ post.url }}" />
@@ -89,4 +81,5 @@
     </div>
   </div>
 -->
+
 </ion-content>

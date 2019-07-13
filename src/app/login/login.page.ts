@@ -27,7 +27,6 @@ export class LoginPage implements OnInit {
     const { username, password } = this;
     try {
       const res = await this.afAuth.auth.signInWithEmailAndPassword(username + '@nabiilah.com', password);
-
       if (res.user) {
         this.user.setUser({
           username,
@@ -35,7 +34,6 @@ export class LoginPage implements OnInit {
         });
         this.router.navigate(['/main']);
       }
-
       console.log(res);
     } catch (err) {
       console.dir(err);

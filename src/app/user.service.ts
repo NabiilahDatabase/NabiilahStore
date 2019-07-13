@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { first } from 'rxjs/operators';
 import { auth } from 'firebase';
+import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/firestore';
+import { Observable } from 'rxjs';
 
 export interface User {
     uid: string;
@@ -11,11 +13,20 @@ export interface User {
 @Injectable()
 export class UserService {
     private user: User;
+    private users: AngularFirestoreCollection;
+    private userDetails: Observable<any>;
 
-    constructor(private afAuth: AngularFireAuth) {}
+    constructor(private afAuth: AngularFireAuth, private db: AngularFirestore) {
+        this.users = this.db.collection<User>('users');
+    }
 
-    setUser(user: User) {
-        this.user = user;
+    setUser(u: User) {
+        this.user = u;
+        this.users.doc(`${u.uid}`).set(u, {merge: true});
+    }
+
+    getUser() {
+        return this.users.doc<User>(`${this.user.uid}`).valueChanges();
     }
 
     async isAuthenticated() {
@@ -52,5 +63,9 @@ export class UserService {
 
     getUID(): string {
         return this.user.uid;
+    }
+
+    logOut() {
+        return this.afAuth.auth.signOut();
     }
 }

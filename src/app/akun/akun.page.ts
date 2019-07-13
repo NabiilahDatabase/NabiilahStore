@@ -27,10 +27,8 @@ export class AkunPage implements OnInit {
     private router: Router
     ) {
       this.mainuser = this.afstore.doc(`users/${this.user.getUID()}`);
-      this.sub = this.mainuser.valueChanges().subscribe(event => {
-        this.posts = event.posts;
+      this.sub = this.user.getUser().subscribe(event => {
         this.username = event.username;
-        this.profilePic = event.profilePic;
       });
     }
 

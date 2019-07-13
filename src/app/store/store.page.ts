@@ -14,10 +14,9 @@ import { CartService, Produk, Cart } from '../cart.service';
 export class StorePage implements OnInit {
 
   id;
-  cart: Cart;
+  cart: Cart[];
   cartLenght: number;
-  items: Produk[];
-  totalan: number;
+  produk: Produk[];
 
   sliderConfig = {
     spaceBetwen: 10,
@@ -25,25 +24,12 @@ export class StorePage implements OnInit {
     slidesPerView: 1.6
   };
 
-  mainuser: AngularFirestoreDocument;
-  userPost: any;
-  sub;
-  posts;
-  coba: Cart[];
-  task;
-  username: string;
-  profilePic: string;
+  task; task2;
 
   constructor(
-    private aff: AngularFireFunctions,
-    private afs: AngularFirestore,
     private user: UserService,
     private cartService: CartService,
     private router: Router) {
-      this.mainuser = this.afs.doc(`users/${this.user.getUID()}`);
-      this.sub = this.mainuser.valueChanges().subscribe(event => {
-        this.posts = event.posts;
-      });
       this.id = this.user.getUID();
     }
 
@@ -53,25 +39,24 @@ export class StorePage implements OnInit {
 
   ngOnInit() {
     this.task = this.cartService.getProducts().subscribe(res => {
-      this.items = res;
+      this.produk = res;
     });
-    this.cartService.getCarts().subscribe(res => {
-      this.coba = res;
+    this.task2 = this.cartService.getCarts().subscribe(res => {
+      this.cart = res;
       this.cartLenght = 0;
       for (const obj of res) {
         this.cartLenght += obj.jumlah;
-        this.totalan += obj.harga;
       }
     });
   }
 
   OnDestroy() {
     this.task.unsubscribe();
+    this.task2.unsubscribe();
   }
 
   addToCart(product) {
-    // this.cartService.addCart(product, this.id);
-    this.cartService.add(product);
+    this.cartService.addCart(product);
   }
 
   openCart() {

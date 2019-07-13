@@ -10,47 +10,43 @@ import { Observable } from 'rxjs';
 })
 export class CartPage implements OnInit {
   productSum: number;
-  totalan = 0;
+  totalan: number;
   selectedItems: Cart[];
-  produk: Cart[];
+  cart: Cart[];
 
   constructor(
-    private cartSevice: CartService,
-    private user: UserService
-    ) { }
+    private cartService: CartService
+    ) {
+      this.cartService.getCarts().subscribe(res => {
+        this.cart = res;
+        this.totalan = 0;
+        for (const obj of res) {
+          this.totalan += (obj.harga * obj.jumlah);
+        }
+        /*
+        const selected = {};
+        for (const obj of res) {
+          if (selected[obj.id]) {
+            selected[obj.id].jumlah++;
+          } else {
+            selected[obj.id] = {...obj, jumlah: 1};
+          }
+        }
+        */
+        // this.selectedItems = Object.keys(selected).map(key => selected[key]);
+        // this.total = this.selectedItems.reduce((a, b) => a + (b.jumlah * b.harga), 0);
+      });
+    }
 
   ngOnInit() {
-    this.cartSevice.getCarts().subscribe(res => {
-      this.produk = res;
-      for (const obj of res) {
-        this.productSum += obj.jumlah;
-        this.totalan += obj.harga;
-      }
-
-      /*
-      const selected = {};
-      for (const obj of res) {
-        if (selected[obj.id]) {
-          selected[obj.id].jumlah++;
-        } else {
-          selected[obj.id] = {...obj, jumlah: 1};
-        }
-      }
-      */
-      // this.selectedItems = Object.keys(selected).map(key => selected[key]);
-      // this.total = this.selectedItems.reduce((a, b) => a + (b.jumlah * b.harga), 0);
-    });
-
   }
 
-  remove(item) {
-    this.cartSevice.removeCart(this.user.getUID(), item.cid);
-    console.log(item);
+// tslint:disable-next-line: use-life-cycle-interface
+  ngOnDestroy() {
   }
 
-  test(text) {
-    console.log(text);
+  updateCart(item, numb) {
+    this.cartService.updateCart(item, numb);
   }
-
 }
 

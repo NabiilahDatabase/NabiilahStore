@@ -6,6 +6,8 @@ import { AlertController } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { UserService } from '../user.service';
 
+import * as firebase from 'firebase';
+
 @Component({
   selector: 'app-register',
   templateUrl: './register.page.html',
@@ -13,17 +15,21 @@ import { UserService } from '../user.service';
 })
 
 export class RegisterPage implements OnInit {
+
   hp = '';
   username = '';
   password = '';
   upassword = '';
+
   constructor(
     public afAuth: AngularFireAuth,
     public afstore: AngularFirestore,
     public alert: AlertController,
     public router: Router,
-    public user: UserService
-    ) { }
+    public user: UserService,
+    ) {
+      firebase.auth().languageCode = 'id';
+    }
 
   ngOnInit() {
   }

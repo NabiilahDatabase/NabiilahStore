@@ -33,7 +33,8 @@ export class CartService {
   private cart: AngularFirestoreCollection<Cart>;
   private cartItems: Observable<Cart[]>;
 
-  cartBox: Cart;
+  cartTmp: Cart;
+  cartBox: Cart[];
   uid: string;
 
   private afs: AngularFirestore;
@@ -51,7 +52,7 @@ export class CartService {
     );
 
     this.uid = user.getUID();
-    this.cart = db.collection<Cart>('cart');
+    this.cart = db.collection<Cart>('users');
     this.cartItems = this.cart.doc(user.getUID()).collection<Cart>('cart').snapshotChanges().pipe(
       map(actions => {
         return actions.map(a => {
@@ -61,7 +62,6 @@ export class CartService {
         });
       })
     );
-
   }
 
   getProducts() {
@@ -73,20 +73,10 @@ export class CartService {
   getProduct(id) {
     return this.productsCollections.doc(id).valueChanges();
   }
-  getCart(pid) {
-    return this.cart.doc(this.uid).collection('cart').doc<Cart>(pid).valueChanges();
-/*
-    this.cart.doc<Cart>(id).valueChanges().subscribe(res => {
-            console.log(res['cart'] + ' coba');
-            // tslint:disable-next-line: no-string-literal
-            return res['cart'];
-          });
-*/
-  }
 
-  async add(p) {
+  async addCart(item) {
     try {
-      const doc = await this.cart.doc(this.uid).collection('cart').doc<Cart>(p.id).ref.get();
+      const doc = await this.cart.doc(this.uid).collection('cart').doc<Cart>(item.id).ref.get();
       if (doc.exists) {
         const data: Cart = {
           id: doc.data().id,
@@ -95,55 +85,46 @@ export class CartService {
           url: doc.data().url,
           jumlah: doc.data().jumlah + 1
         };
-        this.cart.doc(this.uid).collection('cart').doc<Cart>(p.id).update(data);
-        console.log('Tambah jumlah');
+        this.cart.doc(this.uid).collection('cart').doc<Cart>(item.id).update(data);
+        // console.log('Tambah jumlah');
       } else {
         const data: Cart = {
-          id: p.id,
-          nama: p.nama,
-          harga: p.harga,
-          url: p.url,
+          id: item.id,
+          nama: item.nama,
+          harga: item.harga,
+          url: item.url,
           jumlah: 1
         };
-        this.cart.doc(this.uid).collection('cart').doc(p.id).set(data, { merge: true });
-        console.log('Masuk Cartbaru');
+        this.cart.doc(this.uid).collection('cart').doc(item.id).set(data, { merge: true });
+        // console.log('Masuk Cartbaru');
       }
     } catch (error) {
       console.log('Error getting Cart:', error);
     }
   }
 
-  updateProduct(product: Produk, id: string) {
-    return this.productsCollections.doc(id).update(product);
-  }
-  updateCart(cartItems: Cart, id: string) {
-    return this.cart.doc(id).update(cartItems);
-  }
-
-  addProduct(product: Produk) {
-    this.productsCollections.add(product);
-  }
-  addCart(cartItems: Produk, uid: string) {
-    let jum: Cart;
-    this.getCart(cartItems.id).subscribe(res => {
-      jum = res;
-    });
-    console.log(jum);
-    this.cartBox = {
-      id: cartItems.id,
-      nama: cartItems.nama,
-      harga: cartItems.harga,
-      jumlah: 1,
-      url: cartItems.url
-    };
-    this.cart.doc(uid).collection('cart').doc(cartItems.id).set(this.cartBox, { merge: true });
+  async updateCart(cartItems: Cart, numb: number) {
+    try {
+      const doc = await this.cart.doc(this.uid).collection('cart').doc<Cart>(cartItems.id).ref.get();
+      if (doc.data().jumlah > 0) {
+        if (doc.data().jumlah === 1 && numb === -1) {
+          this.cart.doc(this.uid).collection('cart').doc(cartItems.id).delete();
+          // console.log('Hapus Barang');
+        } else {
+          const data: Cart = {
+            id: doc.data().id,
+            nama: doc.data().nama,
+            harga: doc.data().harga,
+            url: doc.data().url,
+            jumlah: doc.data().jumlah + numb
+          };
+          this.cart.doc(this.uid).collection('cart').doc<Cart>(cartItems.id).update(data);
+          // console.log('Jumlah barang ' + numb);
+        }
+      }
+    } catch (error) {
+      console.log('Error getting Cart:', error);
+    }
   }
 
-  removeProduct(id: string) {
-    return this.productsCollections.doc(id).delete();
-  }
-  removeCart(uid: string, pid: string) {
-    console.log(pid + ' dihapus');
-    return this.cart.doc(uid).collection('cart').doc(pid).delete();
-  }
 }
