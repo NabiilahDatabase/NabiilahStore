@@ -4,7 +4,7 @@ import { AngularFirestore } from '@angular/fire/firestore';
 import { auth } from 'firebase/app';
 import { AlertController, NavController, NavParams } from '@ionic/angular';
 import { Router } from '@angular/router';
-import { UserService } from '../services/user.service';
+import { UserService } from '../../services/user.service';
 
 import * as firebase from 'firebase';
 

@@ -4,10 +4,12 @@ import { AuthService } from './services/auth.service';
 
 const routes: Routes = [
   { path: '', redirectTo: 'welcome', pathMatch: 'full' },
-  { path: 'welcome', loadChildren: './welcome/welcome.module#WelcomePageModule' },
-  { path: 'login', loadChildren: './login/login.module#LoginPageModule' },
-  { path: 'register', loadChildren: './register/register.module#RegisterPageModule' },
+  { path: 'welcome', loadChildren: './pages/welcome/welcome.module#WelcomePageModule' },
+  { path: 'login', loadChildren: './auth/login/login.module#LoginPageModule' },
+  { path: 'register', loadChildren: './auth/register/register.module#RegisterPageModule' },
   { path: 'main', loadChildren: './main/main.module#MainPageModule', canActivate: [AuthService] },
+  { path: 'phoneauth', loadChildren: './components/phoneauth/phoneauth.module#PhoneauthPageModule' },
+
 ];
 
 @NgModule({

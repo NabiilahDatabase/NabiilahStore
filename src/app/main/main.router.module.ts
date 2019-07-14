@@ -11,10 +11,10 @@ const routes: Routes = [
             { path: 'order', loadChildren: '../main/order/order.module#OrderPageModule' },
             { path: 'store', loadChildren: '../main/store/store.module#StorePageModule' },
             { path: 'akun', loadChildren: '../main/akun/akun.module#AkunPageModule' },
-            { path: 'barang/:id', loadChildren: '../barang/barang.module#BarangPageModule' },
-            { path: 'edit-profile', loadChildren: '../edit-profile/edit-profile.module#EditProfilePageModule' },
-            { path: 'uploader', loadChildren: '../uploader/uploader.module#UploaderPageModule' },
-            { path: 'cart', loadChildren: '../cart/cart.module#CartPageModule' },
+            { path: 'barang/:id', loadChildren: '../pages/barang/barang.module#BarangPageModule' },
+            { path: 'edit-profile', loadChildren: '../tools/edit-profile/edit-profile.module#EditProfilePageModule' },
+            { path: 'uploader', loadChildren: '../tools/uploader/uploader.module#UploaderPageModule' },
+            { path: 'cart', loadChildren: '../pages/cart/cart.module#CartPageModule' },
         ]
     }
 ];

@@ -5,13 +5,13 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { IonicModule } from '@ionic/angular';
 
-import { UploaderPage } from './uploader.page';
-import { ShareModule } from '../share.module';
+import { EditProfilePage } from './edit-profile.page';
+import { ShareModule } from '../../share.module';
 
 const routes: Routes = [
   {
     path: '',
-    component: UploaderPage
+    component: EditProfilePage
   }
 ];
 
@@ -23,6 +23,6 @@ const routes: Routes = [
     RouterModule.forChild(routes),
     ShareModule
   ],
-  declarations: [UploaderPage]
+  declarations: [EditProfilePage]
 })
-export class UploaderPageModule {}
+export class EditProfilePageModule {}

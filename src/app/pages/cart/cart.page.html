@@ -9,10 +9,10 @@
 
 <ion-content>
 
-  <app-loading *ngIf="!cart"></app-loading>
+  <app-loading *ngIf="!cartBox"></app-loading>
 
   <ion-list>
-    <ion-item-sliding *ngFor="let item of cart" lines="inset">
+    <ion-item-sliding *ngFor="let item of cartBox" lines="inset">
       <ion-item>
         <ion-thumbnail slot="start">
           <ion-img src="{{ item.url }}"></ion-img>
@@ -36,7 +36,7 @@
         <strong class="subharga">Rp {{ (item.harga * item.jumlah) | number }}</strong>
       </ion-note>
       </ion-item>
-      <ion-item-options side="end" (click)="remove(item)">
+      <ion-item-options side="end">
         <ion-item-option color="danger">
           <ion-icon slot="icon-only" name="trash"></ion-icon>
         </ion-item-option>

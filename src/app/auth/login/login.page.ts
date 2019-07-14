@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { auth } from 'firebase/app';
 import { Router } from '@angular/router';
-import { UserService, User } from '../services/user.service';
-import { PopupService } from '../services/popup.service';
+import { UserService, User } from '../../services/user.service';
+import { PopupService } from '../../services/popup.service';
 import { Observable } from 'rxjs';
 
 import * as firebase from 'firebase';

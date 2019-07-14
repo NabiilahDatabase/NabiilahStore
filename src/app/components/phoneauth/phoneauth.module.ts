@@ -5,13 +5,12 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { IonicModule } from '@ionic/angular';
 
-import { BarangPage } from './barang.page';
-import { ShareModule } from '../share.module';
+import { PhoneauthPage } from './phoneauth.page';
 
 const routes: Routes = [
   {
     path: '',
-    component: BarangPage
+    component: PhoneauthPage
   }
 ];
 
@@ -20,9 +19,8 @@ const routes: Routes = [
     CommonModule,
     FormsModule,
     IonicModule,
-    RouterModule.forChild(routes),
-    ShareModule
+    RouterModule.forChild(routes)
   ],
-  declarations: [BarangPage]
+  declarations: [PhoneauthPage]
 })
-export class BarangPageModule {}
+export class PhoneauthPageModule {}
