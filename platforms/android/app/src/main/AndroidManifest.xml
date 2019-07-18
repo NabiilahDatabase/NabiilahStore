@@ -9,10 +9,36 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <meta-data android:name="com.facebook.sdk.ApplicationId" android:value="@string/fb_app_id" />
+        <meta-data android:name="com.facebook.accountkit.ApplicationName" android:value="@string/fb_app_name" />
+        <meta-data android:name="com.facebook.accountkit.ClientToken" android:value="@string/accountkit_token" />
+        <meta-data android:name="com.facebook.accountkit.FacebookAppEventsEnabled" android:value="false" />
+        <activity android:name="com.facebook.accountkit.ui.AccountKitActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="ak920859621610911" />
+            </intent-filter>
+        </activity>
         <provider android:authorities="${applicationId}.provider" android:exported="false" android:grantUriPermissions="true" android:name="org.apache.cordova.camera.FileProvider">
             <meta-data android:name="android.support.FILE_PROVIDER_PATHS" android:resource="@xml/camera_provider_paths" />
         </provider>
+        <service android:enabled="true" android:exported="false" android:name="com.google.android.gms.measurement.AppMeasurementService" />
+        <service android:name="org.apache.cordova.firebase.FirebasePluginMessagingService">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+        <service android:name="org.apache.cordova.firebase.FirebasePluginInstanceIDService">
+            <intent-filter>
+                <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
+            </intent-filter>
+        </service>
+        <receiver android:name="org.apache.cordova.firebase.OnNotificationOpenReceiver" />
     </application>
     <uses-sdk android:minSdkVersion="19" android:targetSdkVersion="28" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
 </manifest>

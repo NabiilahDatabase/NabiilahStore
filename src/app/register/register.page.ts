@@ -1,10 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, NgZone } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { auth } from 'firebase/app';
-import { AlertController } from '@ionic/angular';
+import { AlertController, NavController, NavParams } from '@ionic/angular';
 import { Router } from '@angular/router';
-import { UserService } from '../user.service';
+import { UserService } from '../services/user.service';
 
 import * as firebase from 'firebase';
 
@@ -17,16 +17,19 @@ import * as firebase from 'firebase';
 export class RegisterPage implements OnInit {
 
   hp = '';
-  username = '';
-  password = '';
-  upassword = '';
+  email = '';
+  nama =  '';
+
+  public recaptchaVerifier: firebase.auth.ApplicationVerifier;
 
   constructor(
-    public afAuth: AngularFireAuth,
-    public afstore: AngularFirestore,
-    public alert: AlertController,
-    public router: Router,
-    public user: UserService,
+    private afAuth: AngularFireAuth,
+    private afstore: AngularFirestore,
+    private alert: AlertController,
+    private router: Router,
+    private user: UserService,
+    private navCtrl: NavController,
+    private zone: NgZone
     ) {
       firebase.auth().languageCode = 'id';
     }
@@ -34,27 +37,73 @@ export class RegisterPage implements OnInit {
   ngOnInit() {
   }
 
-  async register() {
-    const { hp, username, password, upassword } = this;
+  async register(phoneNumber: string) {
+    const { hp, email, nama } = this;
 
-    if (password !== upassword) {
-      this.showAlert('Error', 'Password yg anda masukkan salah!');
-      return console.error('Password tidak sama!');
-    }
+    this.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('recaptcha', {
+      size: 'invisible',
+      callback: response => {
+        // reCAPTCHA solved - will proceed with submit function
+      }
+    });
 
-    try {
-      const res = await this.afAuth.auth.createUserWithEmailAndPassword(username + '@nabiilah.com', password);
-      this.afstore.doc(`users/${res.user.uid}`).set({username});
-      this.user.setUser({
-        username,
-        uid: res.user.uid
+    firebase.auth().signInWithPhoneNumber(phoneNumber, this.recaptchaVerifier)
+      .then(async confirmationResult => {
+        await this.alert.create({
+          header: 'Enter the Confirmation code',
+          inputs: [{ name: 'confirmationCode', placeholder: 'Confirmation Code' }],
+          buttons: [
+            { text: 'Cancel',
+              handler: data => { console.log('Cancel clicked'); }
+            },
+            { text: 'Send',
+              handler: data => {
+                confirmationResult.confirm(data.confirmationCode)
+                .then(result => {
+                  // User sign in with correct verification code
+                  this.afstore.doc(`users/${result.user.uid}`).set({
+                    nama,
+                    email,
+                    hp,
+                    uid: result.user.uid
+                  });
+                  this.user.setUser({
+                    nama,
+                    email,
+                    hp,
+                    uid: result.user.uid
+                  });
+                  console.log(result.user);
+                  this.zone.run(async () => {
+                    await this.router.navigate(['/main']);
+                  });
+                }).catch(error => {
+                  // User couldn't sign in (bad verification code?)
+                  // ...
+                });
+              }
+            }
+          ]
+        }).then(alert => alert.present());
+      })
+    .catch((error) => {
+      console.error('SMS not sent', error);
+    });
+
+      /*
+      const res = await this.afAuth.auth.createUserWithEmailAndPassword(email, hp);
+      this.afstore.doc(`users/${res.user.uid}`).set({
+        email,
+        uid: res.user.uid,
+        nama
       });
-      this.showAlert('Sukses!', 'Akun ' + username + ' berhasil dibuat');
-      this.router.navigate(['/main']);
-    } catch (err) {
-      console.dir(err);
-      this.showAlert('Error!', err.message);
-    }
+      this.user.setUser({
+        email,
+        uid: res.user.uid,
+        nama,
+        hp
+      });
+      */
   }
 
   async showAlert(header: string, message: string) {

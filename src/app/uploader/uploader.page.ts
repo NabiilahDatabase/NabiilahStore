@@ -3,7 +3,7 @@ import { AlertController } from '@ionic/angular';
 import { HttpClient } from '@angular/common/http';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { firestore } from 'firebase/app';
-import { UserService } from '../user.service';
+import { UserService } from '../services/user.service';
 import { Router } from '@angular/router';
 import { AngularFireStorage } from '@angular/fire/storage';
 import { finalize } from 'rxjs/operators';

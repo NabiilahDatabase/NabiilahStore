@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { AngularFirestore, AngularFirestoreDocument } from '@angular/fire/firestore';
-import { UserService } from '../user.service';
+import { UserService } from '../../services/user.service';
 import { Router } from '@angular/router';
 
 @Component({
@@ -26,9 +26,8 @@ export class AkunPage implements OnInit {
     public user: UserService,
     private router: Router
     ) {
-      this.mainuser = this.afstore.doc(`users/${this.user.getUID()}`);
-      this.sub = this.user.getUser().subscribe(event => {
-        this.username = event.username;
+      this.sub = this.user.getUser(this.user.getUID()).subscribe(event => {
+        this.username = event.nama;
       });
     }
 

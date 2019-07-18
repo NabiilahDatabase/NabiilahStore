@@ -64,5 +64,26 @@
     },
     "is_top_level": true,
     "variables": {}
+  },
+  "cordova-plugin-firebase": {
+    "source": {
+      "type": "registry",
+      "id": "cordova-plugin-firebase@^2.0.5"
+    },
+    "is_top_level": true,
+    "variables": {}
+  },
+  "cordova-plugin-accountkit": {
+    "source": {
+      "type": "registry",
+      "id": "cordova-plugin-accountkit@1.4.0"
+    },
+    "is_top_level": true,
+    "variables": {
+      "APP_ID": "920859621610911",
+      "APP_NAME": "NabiilahStore",
+      "CLIENT_TOKEN": "eba244d001735a37e1960ef975b1c203",
+      "API_VERSION": "v1.0"
+    }
   }
 }

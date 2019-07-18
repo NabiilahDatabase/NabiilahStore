@@ -5,16 +5,17 @@
   </ion-header>
 
 <ion-content>
-  <div id="recaptcha-container"></div>
   <ion-card class="main">
     <ion-card-content>
         <ion-card-title class="judul"><ion-buttons><ion-back-button></ion-back-button></ion-buttons>DAFTAR MEMBER</ion-card-title>
-      <ion-input class="input" clearInput placeholder="Nomor HP" type="number" [(ngModel)]="hp"></ion-input>
-      <ion-input class="input" clearInput placeholder="Email" type="text" [(ngModel)]="username"></ion-input>
-      <ion-input class="input" clearInput placeholder="Password" type="password" [(ngModel)]="password"></ion-input>
-      <ion-input class="input" clearInput placeholder="Ulangi Password" type="password" [(ngModel)]="upassword"></ion-input>
-      <ion-button class="submit" fill="clear" slot="start" (click)="register()"><ion-icon name="log-in" slot="end"></ion-icon>DAFTAR</ion-button>
+      <ion-input class="input" clearInput placeholder="Nomor HP" type="text" [(ngModel)]="hp" required></ion-input>
+
+      <ion-input class="input" clearInput placeholder="Nama Lengkap" type="text" [(ngModel)]="nama" required></ion-input>
+      <ion-input class="input" clearInput placeholder="Email" type="text" [(ngModel)]="email" required></ion-input>
+
+      <ion-button class="submit" fill="clear" slot="start" (click)="register(hp)"><ion-icon name="log-in" slot="end"></ion-icon>DAFTAR</ion-button>
     </ion-card-content>
   </ion-card>
+  <div id="recaptcha"></div>
 </ion-content>
 

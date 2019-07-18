@@ -5,6 +5,7 @@ import { RouteReuseStrategy } from '@angular/router';
 import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
+import { Firebase } from '@ionic-native/firebase/ngx';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
@@ -18,8 +19,8 @@ import { FunctionsRegionToken, AngularFireFunctionsModule } from '@angular/fire/
 import { environment } from '../environments/environment';
 import { HttpClientModule } from '@angular/common/http';
 
-import { UserService } from './user.service';
-import { AuthService } from './auth.service';
+import { UserService } from './services/user.service';
+import { AuthService } from './services/auth.service';
 import { ShareModule } from './share.module';
 
 @NgModule({
@@ -42,6 +43,7 @@ import { ShareModule } from './share.module';
     SplashScreen,
     HttpClientModule,
     UserService,
+    Firebase,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     { provide: StorageBucket, useValue: 'nabiilah-data.appspot.com' },
     { provide: FunctionsRegionToken, useValue: 'us-central1' },

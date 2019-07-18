@@ -1,9 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { auth } from 'firebase/app';
-import { AlertController } from '@ionic/angular';
 import { Router } from '@angular/router';
-import { UserService } from '../user.service';
+import { UserService, User } from '../services/user.service';
+import { PopupService } from '../services/popup.service';
+import { Observable } from 'rxjs';
+
+import * as firebase from 'firebase';
+import 'firebase/auth';
 
 @Component({
   selector: 'app-login',
@@ -13,33 +17,54 @@ import { UserService } from '../user.service';
 export class LoginPage implements OnInit {
   username = '';
   password = '';
+
+  private userData: Observable<User>;
+  data: User;
+
   constructor(
-    public afAuth: AngularFireAuth,
-    public alert: AlertController,
-    public router: Router,
-    public user: UserService
+    private afAuth: AngularFireAuth,
+    private router: Router,
+    private user: UserService,
+    private popup: PopupService
   ) { }
 
   ngOnInit() {
   }
+
+  onLogin(uname, password) {
+    firebase.auth().signInWithEmailAndPassword(uname + '@nabiilah.com', password)
+      .then(data => {
+        this.userData = this.user.getUser(data.user.uid);
+        this.userData.subscribe(get => {
+          console.log('userData: ' + get.uid);
+          this.user.setUser(get);
+          this.popup.showToast('Selamat datang ' + uname);
+          this.router.navigate(['/main']);
+          });
+      })
+      .catch(error => {
+        console.log(error.message);
+        this.popup.showToast(error.message);
+      });
+    }
 
   async login() {
     const { username, password } = this;
     try {
       const res = await this.afAuth.auth.signInWithEmailAndPassword(username + '@nabiilah.com', password);
       if (res.user) {
-        this.user.setUser({
-          username,
-          uid: res.user.uid
+        console.log(res);
+        this.user.getUser(res.user.uid).subscribe(data => {
+          this.data = data;
         });
+        this.user.setUser(this.data);
         this.router.navigate(['/main']);
       }
-      console.log(res);
     } catch (err) {
       console.dir(err);
       if (err.code === 'auth/user-not-found') {
         console.log('User tidak ditemukan');
-        this.showAlert('Error!', 'Username atau Password salah!');
+        this.popup.showAlert('Error!', 'Username atau Password salah!');
       }
     }
   }
@@ -48,12 +73,4 @@ export class LoginPage implements OnInit {
     this.afAuth.auth.signOut();
   }
 
-  async showAlert(header: string, message: string) {
-    const alert = await this.alert.create({
-      header,
-      message,
-      buttons: ['OK']
-    });
-    await alert.present();
-  }
 }

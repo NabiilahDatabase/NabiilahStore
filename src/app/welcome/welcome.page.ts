@@ -1,10 +1,13 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { AngularFireAuth } from '@angular/fire/auth';
 
 @Component({
   selector: 'app-welcome',
   templateUrl: './welcome.page.html',
   styleUrls: ['./welcome.page.scss'],
 })
+
 export class WelcomePage implements OnInit {
 
   slides = [
@@ -28,7 +31,16 @@ export class WelcomePage implements OnInit {
     }
   ];
 
-  constructor() { }
+  constructor(
+    private router: Router,
+    public afAuth: AngularFireAuth
+    ) {
+      this.afAuth.auth.onAuthStateChanged(user => {
+        if (user) {
+          this.router.navigate(['/main/store']);
+        }
+      });
+    }
 
   ngOnInit() {
   }

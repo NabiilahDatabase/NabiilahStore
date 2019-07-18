@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { AngularFirestore, AngularFirestoreDocument } from '@angular/fire/firestore';
-import { UserService } from '../user.service';
+import { UserService } from '../../services/user.service';
 import { Router } from '@angular/router';
 import { AngularFireFunctions } from '@angular/fire/functions';
 import { Observable } from 'rxjs';
-import { CartService, Produk, Cart } from '../cart.service';
+import { CartService, Produk, Cart } from '../../services/cart.service';
 
 @Component({
   selector: 'app-store',
@@ -13,9 +13,11 @@ import { CartService, Produk, Cart } from '../cart.service';
 })
 export class StorePage implements OnInit {
 
-  id;
+  cartData: Observable<Cart[]>;
   cart: Cart[];
   cartLenght: number;
+
+  produkData: Observable<Produk[]>;
   produk: Produk[];
 
   sliderConfig = {
@@ -27,21 +29,20 @@ export class StorePage implements OnInit {
   task; task2;
 
   constructor(
-    private user: UserService,
     private cartService: CartService,
-    private router: Router) {
-      this.id = this.user.getUID();
-    }
+    private router: Router) {}
 
   goTo(postID: string) {
     this.router.navigate(['/main/barang/' + postID]);
   }
 
   ngOnInit() {
-    this.task = this.cartService.getProducts().subscribe(res => {
+    this.produkData = this.cartService.getProducts();
+    this.task = this.produkData.subscribe(res => {
       this.produk = res;
     });
-    this.task2 = this.cartService.getCarts().subscribe(res => {
+    this.cartData = this.cartService.getCarts();
+    this.task2 = this.cartData.subscribe(res => {
       this.cart = res;
       this.cartLenght = 0;
       for (const obj of res) {

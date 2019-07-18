@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { CartService, Cart } from '../cart.service';
-import { UserService } from '../user.service';
+import { CartService, Cart } from '../services/cart.service';
+import { UserService } from '../services/user.service';
 import { Observable } from 'rxjs';
 
 @Component({
@@ -9,16 +9,19 @@ import { Observable } from 'rxjs';
   styleUrls: ['./cart.page.scss'],
 })
 export class CartPage implements OnInit {
+
+  cartDataStream: Observable<Cart[]>;
   productSum: number;
   totalan: number;
   selectedItems: Cart[];
-  cart: Cart[];
+  cartBox: Cart[];
 
   constructor(
     private cartService: CartService
     ) {
-      this.cartService.getCarts().subscribe(res => {
-        this.cart = res;
+      this.cartDataStream = this.cartService.getCarts();
+      this.cartDataStream.subscribe(res => {
+        this.cartBox = res;
         this.totalan = 0;
         for (const obj of res) {
           this.totalan += (obj.harga * obj.jumlah);
